@@ -1,52 +1,50 @@
 const Queries = require("../queries/events");
 const pool = require("../database/db");
 
+const query = new Queries();
 class EventRequestParser{
     constructor(){
-        this.test = "hello";
-        this.query = new Queries();
+        
     }
-    
-    async getAllEvents(req) {
-        console.log(this.test);
+    getAllEvents = async (req) => {
         const values = await pool.query(
-            this.query.getAllEvents()
+            query.getAllEvents()
         );
         return values.rows;
     }
-    async getSpecificClassification(req) {
+    getSpecificClassification = async (req) => {
         const classification = properQueryStr(req.params.classification);
-        const values = await pool.query(
-            this.query.getSpecificClassification(classification)
+        const values = await pool.query( 
+            query.getSpecificClassification(classification)
         );
         return values.rows;
     }
-    async getSpecificType(req) {
+    getSpecificType = async (req) => {
         const classification = properQueryStr(req.params.classification);
         const type = properQueryStr(req.params.type);
         const values = await pool.query(
-            this.query.getSpecificType(classification, type)
+            query.getSpecificType(classification, type)
         );
         return values.rows;
     }
-    async getSpecificLeague(req) {
+    getSpecificLeague = async (req) => {
         const classification = properQueryStr(req.params.classification);
         const type = properQueryStr(req.params.type);
         const league = properQueryStr(req.params.league);
         const values = await pool.query(
-            this.query.getSpecificLeague(classification, type, league)
+            query.getSpecificLeague(classification, type, league)
         );
         return values.rows;
     }
 
-    async getSpecificEvent(req) {
+    getSpecificEvent = async (req) => {
         const id = properQueryInt(req.params.id);
         const values = await pool.query(
-            this.query.getSpecificEvent(id)
+            query.getSpecificEvent(id)
         );
         return values.rows;
     }
-    async addEvent(req) {
+    addEvent = async (req) => {
         const leagueID = properQueryInt(req.body.league_id);
         const eventName = properQueryStr(req.body.event_name);
         const eventDate = properQueryStr(req.body.event_date);
@@ -54,8 +52,8 @@ class EventRequestParser{
         const eventPopularity = setZeroIfNull(req.body.event_popularity);
         const maxCapacity = setZeroIfNull(req.body.max_capacity);
         const venueID = properQueryInt(req.body.venue_id);
-        const values = await pool.query(
-            this.query.insertEvent(
+        const values = await pool.query( 
+            query.insertEvent(
                 [leagueID,
                 eventName,
                 eventDate,
@@ -78,7 +76,7 @@ class EventRequestParser{
         const maxCapacity = properQueryInt(req.body.max_capacity);
         const venueID = properQueryInt(req.body.venue_id);
         const values = await pool.query(
-            this.query.modifyEvent(
+            query.modifyEvent(
                 [eventID,
                     eventName,
                     eventDate,
@@ -95,7 +93,7 @@ class EventRequestParser{
     deleteEvent = async (req) => {
         const eventID = properQueryInt(req.params.id);
         const values = await pool.query(
-            this.query.deleteEvent(eventID)
+            query.deleteEvent(eventID)
         );
         return values.rows;
     }
