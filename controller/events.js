@@ -1,4 +1,4 @@
-const RequestParser = require("../../request/event_request");
+import RequestParser from "../request/event_request.js";
 
 var requestParser = new RequestParser();
 
@@ -9,7 +9,13 @@ const parseRes = async (parseReq, req, res) => {
             res.json(obj);
         }
         else{
-            res.send("error");
+            res.status(404)
+                .send({
+                    "msg" : "Object not found",
+                    "parameter": req.params,
+                    "body" : req.body
+                }
+            );
         }
     }
     catch (e) {
@@ -54,4 +60,4 @@ const deleteEvent = async (req, res) => {
 
 
 
-module.exports = { getAllEvents, getSpecificClassification, getSpecificType, getSpecificLeague, getSpecificEvent, addEvent, patchEvent, deleteEvent};
+export default { getAllEvents, getSpecificClassification, getSpecificType, getSpecificLeague, getSpecificEvent, addEvent, patchEvent, deleteEvent};

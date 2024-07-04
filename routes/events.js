@@ -1,6 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const eventController = require("../controller/events/events");
+import { Router } from 'express';
+import eventController from "../controller/events.js";
+
+const router = Router();
 
 //get all types
 //for each type get all league
@@ -31,4 +32,4 @@ router.route("/:classification/:type/:league")
     .get(eventController.getSpecificLeague);
 
 
-module.exports = router;
+export default router;

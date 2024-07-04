@@ -1,11 +1,11 @@
-const express = require('express');
-const eventsRouter = require ('./routes/events');
+import express, { json } from 'express';
+import eventsRouter from './routes/events.js';
 const app = express()
 
 const port = 3000;
 
 //middleware
-app.use(express.json());
+app.use(json());
 
 //routes
 app.use('/api/v1/events', eventsRouter);

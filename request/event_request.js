@@ -1,5 +1,5 @@
-const Queries = require("../queries/events");
-const pool = require("../database/db");
+import Queries from "../queries/events.js";
+import pool from "../database/db.js";
 
 const query = new Queries();
 class EventRequestParser{
@@ -111,4 +111,4 @@ const setZeroIfNull = (theInt) => {
     return theInt ? parseInt(theInt) : 0;
 }
 
-module.exports = EventRequestParser;
+export default EventRequestParser;

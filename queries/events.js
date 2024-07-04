@@ -1,4 +1,4 @@
-const table_names = require("../database/table_name");
+import table_names from "../database/table_name.js";
 
 class Queries {
     constructor() {
@@ -125,6 +125,4 @@ class Queries {
     }
 }
 
-module.exports = Queries;
-
-/**/
+export default Queries;

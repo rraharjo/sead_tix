@@ -13,4 +13,4 @@ const table_names = {
     "venue": "venue_table"
 };
 
-module.exports = table_names;
+export default table_names;

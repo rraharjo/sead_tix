@@ -1,15 +1,14 @@
-const pg = require('pg');
-const pass = require("../pass/pass");
-const Pool = pg.Pool;
+import pg from 'pg';
+import password from "../pass/pass.js";
 
-const pool = new Pool(
+const pool = new pg.Pool(
     {
         user: "postgres",
-        password: `${pass.postgresql}`,
+        password: `${password.postgresql}`,
         host: "localhost",
         port: 5432,
         database: "sead_tix"
     }
 );
 
-module.exports = pool;
+export default pool;
