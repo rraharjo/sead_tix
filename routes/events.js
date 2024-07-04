@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import eventController from "../controller/events.js";
+import EventController from "../controller/events.js";
 
 const router = Router();
 
@@ -10,6 +10,8 @@ const router = Router();
 // e.g /basketball, /soccer
 //for each available league, make new route
 // e.g. /basketball/nba, basketball/wnba, /soccer/uefa, /soccer/fifawcup
+
+const eventController = new EventController();
 
 router.route("/")
     

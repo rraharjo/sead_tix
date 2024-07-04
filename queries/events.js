@@ -1,8 +1,8 @@
 import table_names from "../database/table_name.js";
 
-class Queries {
+class EventQueries {
     constructor() {
-
+        this.table_names = table_names;
     }
 
     getGetBasicTemplate() {
@@ -18,14 +18,14 @@ class Queries {
             ett.event_type_name,
             elt.event_league_name,
             vt.venue_name
-        from ${table_names.event_table} et
-        left join ${table_names.event_league} elt
+        from ${this.table_names.event_table} et
+        left join ${this.table_names.event_league} elt
             on elt.event_league_id = et.event_league_id
-        left join ${table_names.event_type} ett
+        left join ${this.table_names.event_type} ett
             on ett.event_type_id = elt.event_type_id
-        left join ${table_names.event_classification} ect
+        left join ${this.table_names.event_classification} ect
             on ett.event_classification_id = ect.event_classification_id
-        left join ${table_names.venue} vt
+        left join ${this.table_names.venue} vt
             on vt.venue_id = et.venue_id`;
     }
     getAllEvents() {
@@ -125,4 +125,4 @@ class Queries {
     }
 }
 
-export default Queries;
+export default EventQueries;

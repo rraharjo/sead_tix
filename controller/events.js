@@ -1,63 +1,71 @@
 import RequestParser from "../request/event_request.js";
 
-var requestParser = new RequestParser();
+class EventsController {
+    constructor() {
+        this.requestParser = new RequestParser();
+    }
 
-const parseRes = async (parseReq, req, res) => {
-    try{
-        const obj = await parseReq(req);
-        if (obj && obj.length != 0){
-            res.json(obj);
+    parseRes = async (parseReq, req, res) => {
+        try {
+            const obj = await parseReq(req);
+            if (obj && obj.length != 0) {
+                res.json(obj);
+            }
+            else {
+                res.status(404)
+                    .send({
+                        "msg": "Object not found",
+                        "parameter": req.params,
+                        "body": req.body
+                    }
+                    );
+            }
         }
-        else{
-            res.status(404)
-                .send({
-                    "msg" : "Object not found",
-                    "parameter": req.params,
-                    "body" : req.body
-                }
-            );
+        catch (e) {
+            console.log(e);
+            res.status(500)
+                .send({ "msg": e });
         }
     }
-    catch (e) {
-        console.log(e);
-        res.status(500)
-            .send({"msg": e});
+
+    getAllEvents = async (req, res) => {
+        this.parseRes(this.requestParser.getAllEvents, req, res);
+    }
+
+    getSpecificClassification = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificClassification, req, res);
+    }
+
+    getSpecificType = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificType, req, res)
+    }
+
+    getSpecificLeague = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificLeague, req, res);
+    }
+
+    getSpecificEvent = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificEvent, req, res);
+    }
+
+    addEvent = async (req, res) => {
+        this.parseRes(this.requestParser.addEvent, req, res);
+    }
+
+    patchEvent = async (req, res) => {
+        this.parseRes(this.requestParser.patchEvent, req, res);
+    }
+
+    deleteEvent = async (req, res) => {
+        this.parseRes(this.requestParser.deleteEvent, req, res);
     }
 }
 
 
-const getAllEvents = async (req, res) => {
-    parseRes(requestParser.getAllEvents, req, res);
-}
-
-const getSpecificClassification = async (req, res) => {
-    parseRes(requestParser.getSpecificClassification, req, res);
-}
-
-const getSpecificType = async (req, res) => {
-    parseRes(requestParser.getSpecificType, req, res)
-}
-
-const getSpecificLeague = async (req, res) => {
-    parseRes(requestParser.getSpecificLeague, req, res);
-}
-
-const getSpecificEvent = async (req, res) => {
-    parseRes(requestParser.getSpecificEvent, req, res);
-}
-
-const addEvent = async (req, res) => {   
-    parseRes(requestParser.addEvent, req, res);
-}
-
-const patchEvent = async (req, res) => {  
-    parseRes(requestParser.patchEvent, req, res);
-}
-
-const deleteEvent = async (req, res) => {  
-    parseRes(requestParser.deleteEvent, req, res);
-}
 
 
 
-export default { getAllEvents, getSpecificClassification, getSpecificType, getSpecificLeague, getSpecificEvent, addEvent, patchEvent, deleteEvent};
+
+
+
+export default EventsController;
