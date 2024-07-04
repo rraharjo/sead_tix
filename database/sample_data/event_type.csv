@@ -1,0 +1,9 @@
+event_type_id,event_classification_id,event_type_name
+1,1,basketball
+2,2,concert
+3,3,dance
+4,1,swim
+5,1,soccer
+6,1,football
+7,1,esport
+8,1,cricket

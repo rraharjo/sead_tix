@@ -1,0 +1,5 @@
+﻿event_id,ticket_type,ticket_price
+7,cheap,100
+7,expensive,700
+1,mid,300
+2,cheap,200
