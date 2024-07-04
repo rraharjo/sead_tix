@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import EventController from "../controller/events.js";
+import EventsController from "../controller/events_controller.js";
 
 const router = Router();
 
@@ -11,27 +11,27 @@ const router = Router();
 //for each available league, make new route
 // e.g. /basketball/nba, basketball/wnba, /soccer/uefa, /soccer/fifawcup
 
-const eventController = new EventController();
+const eventsController = new EventsController();
 
 router.route("/")
     
 router.route("/id")
-    .get(eventController.getAllEvents)
-    .post(eventController.addEvent);
+    .get(eventsController.getAllEvents)
+    .post(eventsController.addEvent);
 
 router.route("/id/:id")
-    .get(eventController.getSpecificEvent)
-    .patch(eventController.patchEvent)
-    .delete(eventController.deleteEvent);
+    .get(eventsController.getSpecificEvent)
+    .patch(eventsController.patchEvent)
+    .delete(eventsController.deleteEvent);
 
 router.route("/:classification")
-    .get(eventController.getSpecificClassification);
+    .get(eventsController.getSpecificClassification);
 
 router.route("/:classification/:type")
-    .get(eventController.getSpecificType);
+    .get(eventsController.getSpecificType);
 
 router.route("/:classification/:type/:league")
-    .get(eventController.getSpecificLeague);
+    .get(eventsController.getSpecificLeague);
 
 
 export default router;

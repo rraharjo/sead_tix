@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import eventsRouter from './routes/events.js';
+import eventsRouter from './routes/events_router.js';
 const app = express()
 
 const port = 3000;

@@ -1,10 +1,6 @@
-import table_names from "../database/table_name.js";
+import Query from "./query.js";
 
-class EventQueries {
-    constructor() {
-        this.table_names = table_names;
-    }
-
+class EventQuery extends Query{
     getGetBasicTemplate() {
         return `
         select 
@@ -125,4 +121,4 @@ class EventQueries {
     }
 }
 
-export default EventQueries;
+export default EventQuery;

@@ -1,31 +1,9 @@
 import RequestParser from "../request/event_request.js";
+import Controller from "./controller.js";
 
-class EventsController {
+class EventsController extends Controller{
     constructor() {
-        this.requestParser = new RequestParser();
-    }
-
-    parseRes = async (parseReq, req, res) => {
-        try {
-            const obj = await parseReq(req);
-            if (obj && obj.length != 0) {
-                res.json(obj);
-            }
-            else {
-                res.status(404)
-                    .send({
-                        "msg": "Object not found",
-                        "parameter": req.params,
-                        "body": req.body
-                    }
-                    );
-            }
-        }
-        catch (e) {
-            console.log(e);
-            res.status(500)
-                .send({ "msg": e });
-        }
+        super(new RequestParser());
     }
 
     getAllEvents = async (req, res) => {

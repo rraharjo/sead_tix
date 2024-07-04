@@ -1,24 +1,26 @@
-import Queries from "../queries/events.js";
-import pool from "../database/db.js";
+import Query from "../queries/events_query.js";
+import RequestParser from "./request.js";
 
-class EventRequestParser{
-    constructor(){
-        this.query = new Queries();
-        this.pool = pool;
+class EventRequestParser extends RequestParser {
+    constructor() {
+        super(new Query());
     }
+
     getAllEvents = async (req) => {
         const values = await this.pool.query(
             this.query.getAllEvents()
         );
         return values.rows;
     }
+
     getSpecificClassification = async (req) => {
         const classification = properQueryStr(req.params.classification);
-        const values = await this.pool.query( 
+        const values = await this.pool.query(
             this.query.getSpecificClassification(classification)
         );
         return values.rows;
     }
+
     getSpecificType = async (req) => {
         const classification = properQueryStr(req.params.classification);
         const type = properQueryStr(req.params.type);
@@ -27,6 +29,7 @@ class EventRequestParser{
         );
         return values.rows;
     }
+
     getSpecificLeague = async (req) => {
         const classification = properQueryStr(req.params.classification);
         const type = properQueryStr(req.params.type);
@@ -44,6 +47,7 @@ class EventRequestParser{
         );
         return values.rows;
     }
+    
     addEvent = async (req) => {
         const leagueID = properQueryInt(req.body.league_id);
         const eventName = properQueryStr(req.body.event_name);
@@ -52,15 +56,15 @@ class EventRequestParser{
         const eventPopularity = setZeroIfNull(req.body.event_popularity);
         const maxCapacity = setZeroIfNull(req.body.max_capacity);
         const venueID = properQueryInt(req.body.venue_id);
-        const values = await this.pool.query( 
+        const values = await this.pool.query(
             this.query.insertEvent(
                 [leagueID,
-                eventName,
-                eventDate,
-                eventDescription,
-                eventPopularity,
-                maxCapacity,
-                venueID
+                    eventName,
+                    eventDate,
+                    eventDescription,
+                    eventPopularity,
+                    maxCapacity,
+                    venueID
                 ]
             )
         );
@@ -89,7 +93,7 @@ class EventRequestParser{
         );
         return values.rows;
     }
-    
+
     deleteEvent = async (req) => {
         const eventID = properQueryInt(req.params.id);
         const values = await this.pool.query(
