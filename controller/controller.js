@@ -1,5 +1,7 @@
+import RequestParser from "../request/request.js";
 class Controller {
     constructor(requestParser) {
+        /** @type {RequestParser} */
         this.requestParser = requestParser;
     }
 

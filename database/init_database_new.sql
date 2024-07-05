@@ -1,6 +1,6 @@
 --ONLY RUN CREATE DATABASE ONCE
 create database sead_tix;
-
+--------------------------------------------------------------------------------------------------------------------------------
 
 drop table performer_event_relation;
 drop table performer_table;

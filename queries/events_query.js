@@ -2,67 +2,80 @@ import Query from "./query.js";
 
 class EventQuery extends Query{
     getGetBasicTemplate() {
+        const eventTable = this.schema.eventTable;
+        const eventLeague = this.schema.eventLeagueTable;
+        const eventType = this.schema.eventTypeTable;
+        const eventClassification = this.schema.eventClassificationTable;
+        const venue = this.schema.venueTable;
         return `
         select 
-            et.event_id,
-            et.event_name,
-            et.event_date,
-            et.event_popularity,
-            et.max_capacity,
-            et.event_description,
-            ect.event_classification_name,
-            ett.event_type_name,
-            elt.event_league_name,
-            vt.venue_name
-        from ${this.table_names.event_table} et
-        left join ${this.table_names.event_league} elt
-            on elt.event_league_id = et.event_league_id
-        left join ${this.table_names.event_type} ett
-            on ett.event_type_id = elt.event_type_id
-        left join ${this.table_names.event_classification} ect
-            on ett.event_classification_id = ect.event_classification_id
-        left join ${this.table_names.venue} vt
-            on vt.venue_id = et.venue_id`;
+            et.${eventTable.eventID},
+            et.${eventTable.eventName},
+            et.${eventTable.eventDate},
+            et.${eventTable.popularity},
+            et.${eventTable.maxCapacity},
+            et.${eventTable.description},
+            ect.${eventClassification.classificationName},
+            ett.${eventType.typeName},
+            elt.${eventLeague.leagueName},
+            vt.${venue.venueName}
+        from ${eventTable.tableName} et
+        left join ${eventLeague.tableName} elt
+            on elt.${eventLeague.leagueID} = et.${eventTable.leagueID}
+        left join ${eventType.tableName} ett
+            on ett.${eventType.typeID} = elt.${eventLeague.typeID}
+        left join ${eventClassification.tableName} ect
+            on ett.${eventType.classificationID} = ect.${eventClassification.classificationID}
+        left join ${venue.tableName} vt
+            on vt.${venue.venueID} = et.${eventTable.venueID}`;
     }
     getAllEvents() {
         return this.getGetBasicTemplate() + `;`;
     }
 
     getSpecificClassification(classificationName) {
+        const ect = this.schema.eventClassificationTable
         return this.getGetBasicTemplate() +
             " " +
-            `where lower(ect.event_classification_name) = lower(${classificationName});`;
+            `where lower(ect.${ect.classificationName}) = lower(${classificationName});`;
     }
 
     getSpecificType(classificationName, typeName) {
+        const ect = this.schema.eventClassificationTable;
+        const ett = this.schema.eventTypeTable;
         return this.getGetBasicTemplate() + " " +
-            `where lower(ect.event_classification_name) = lower(${classificationName})
-                    and lower(ett.event_type_name) = lower(${typeName});`;
+            `where lower(ect.${ect.classificationName}) = lower(${classificationName})
+                    and lower(ett.${ett.typeName}) = lower(${typeName});`;
     }
 
     getSpecificLeague(classificationName, typeName, leagueName) {
+        const ect = this.schema.eventClassificationTable;
+        const ett = this.schema.eventTypeTable;
+        const elt = this.schema.eventLeagueTable;
         return this.getGetBasicTemplate() + " " +
-            `where lower(ect.event_classification_name) = lower(${classificationName})
-                and lower(ett.event_type_name) = lower(${typeName})
-                and lower(elt.event_league_name) = lower(${leagueName});`
+            `where lower(ect.${ect.classificationName}) = lower(${classificationName})
+                and lower(ett.${ett.typeName}) = lower(${typeName})
+                and lower(elt.${elt.leagueName}) = lower(${leagueName});`
     }
 
     getSpecificEvent(eventID) {
+        const eventTable = this.schema.eventTable;
         return this.getGetBasicTemplate() + " " +
-            `where event_id = ${eventID};`;
+            `where ${eventTable.eventID} = ${eventID};`;
     }
 
     insertEvent(valuesList) {
+        const eventTable = this.schema.eventTable;
         return `
         insert into
-        event_table(
-            event_league_id, 
-            event_name, 
-            event_date, 
-            event_description, 
-            event_popularity, 
-            max_capacity, 
-            venue_id)
+        ${eventTable.tableName}(
+            ${eventTable.leagueID}, 
+            ${eventTable.eventName}, 
+            ${eventTable.eventDate}, 
+            ${eventTable.description}, 
+            ${eventTable.popularity}, 
+            ${eventTable.maxCapacity}, 
+            ${eventTable.venueID})
         values(
             ${valuesList[0]}, 
             ${valuesList[1]}, 
@@ -75,47 +88,49 @@ class EventQuery extends Query{
     }
 
     modifyEvent(valuesList) {
+        const et = this.schema.eventTable;
         return`
-        update event_table
+        update ${et.tableName}
         set 
-            event_name =
+            ${et.eventName} =
                 case 
-                    when ${valuesList[1]} is null then event_name
+                    when ${valuesList[1]} is null then ${et.eventName}
                     else ${valuesList[1]}
                 end,
-            event_date = 
+            ${et.eventDate} = 
                 case 
-                    when ${valuesList[2]} is null then event_date
+                    when ${valuesList[2]} is null then ${et.eventDate}
                     else ${valuesList[2]}
                 end,
-            event_description = 
+            ${et.description} = 
                 case 
-                    when ${valuesList[3]} is null then event_description
+                    when ${valuesList[3]} is null then ${et.description}
                     else ${valuesList[3]}
                 end,
-            event_popularity = 
+            ${et.popularity} = 
                 case 
-                    when ${valuesList[4]} is null then event_popularity
+                    when ${valuesList[4]} is null then ${et.popularity}
                     else ${valuesList[4]}
                 end,
-            max_capacity = 
+            ${et.maxCapacity} = 
                 case 
-                    when ${valuesList[5]} is null then max_capacity
+                    when ${valuesList[5]} is null then ${et.maxCapacity}
                     else ${valuesList[5]}
                 end,
-            venue_id = 
+            ${et.venueID} = 
                 case 
-                    when ${valuesList[6]} is null then venue_id
+                    when ${valuesList[6]} is null then ${et.venueID}
                     else ${valuesList[6]}
                 end
-        where event_id = ${valuesList[0]}
+        where ${et.eventID} = ${valuesList[0]}
         returning *;`
     }
 
     deleteEvent(eventID){//delete ticket and performer_event_relation first
+        const et = this.schema.eventTable;
         return`
-        delete from event_table
-        where event_id = ${eventID}
+        delete from ${et.tableName}
+        where ${et.eventID} = ${eventID}
         returning *;
         `
     }

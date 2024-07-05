@@ -1,8 +1,10 @@
 import table_names from "../database/table_name.js";
+import Schema from "../database/schema.js";
 
 class Query {
     constructor(){
-        this.table_names = table_names;
+        /** @type {Schema} */
+        this.schema = Schema.getInstance();
     }
 }
 

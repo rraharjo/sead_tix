@@ -1,9 +1,9 @@
-import RequestParser from "../request/event_request.js";
+import EventRequestParser from "../request/event_request.js";
 import Controller from "./controller.js";
 
 class EventsController extends Controller{
     constructor() {
-        super(new RequestParser());
+        super(new EventRequestParser());
     }
 
     getAllEvents = async (req, res) => {

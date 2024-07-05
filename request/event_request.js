@@ -47,7 +47,7 @@ class EventRequestParser extends RequestParser {
         );
         return values.rows;
     }
-    
+
     addEvent = async (req) => {
         const leagueID = properQueryInt(req.body.league_id);
         const eventName = properQueryStr(req.body.event_name);

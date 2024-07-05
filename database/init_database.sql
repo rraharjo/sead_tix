@@ -1,3 +1,4 @@
+--DEPRECATED
 --ONLY RUN CREATE DATABASE ONCE
 create database sead_tix;
 
