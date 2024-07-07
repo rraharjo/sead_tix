@@ -48,6 +48,33 @@ class EventRequestParser extends RequestParser {
         return values.rows;
     }
 
+    getSpecificState = async (req) => {
+        const state = properQueryStr(req.params.state);
+        const values = await this.pool.query(
+            this.query.getSpecificState(state)
+        );
+        return values.rows;
+    }
+
+    getSpecificCity = async (req) => {
+        const state = properQueryStr(req.params.state);
+        const city = properQueryStr(req.params.city);
+        const values = await this.pool.query(
+            this.query.getSpecificCity(state, city)
+        );
+        return values.rows;
+    }
+
+    getSpecificVenue = async (req) => {
+        const state = properQueryStr(req.params.state);
+        const city = properQueryStr(req.params.city);
+        const venue = properQueryStr(req.params.venue);
+        const values = await this.pool.query(
+            this.query.getSpecificVenue(state, city, venue)
+        );
+        return values.rows;
+    }
+
     addEvent = async (req) => {
         const leagueID = properQueryInt(req.body.league_id);
         const eventName = properQueryStr(req.body.event_name);

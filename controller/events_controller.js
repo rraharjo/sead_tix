@@ -26,6 +26,18 @@ class EventsController extends Controller{
         this.parseRes(this.requestParser.getSpecificEvent, req, res);
     }
 
+    getSpecificState = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificState, req, res);
+    }
+
+    getSpecificCity = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificCity, req, res);
+    }
+
+    getSpecificVenue = async (req, res) => {
+        this.parseRes(this.requestParser.getSpecificVenue, req, res);
+    }
+
     addEvent = async (req, res) => {
         this.parseRes(this.requestParser.addEvent, req, res);
     }
@@ -38,12 +50,5 @@ class EventsController extends Controller{
         this.parseRes(this.requestParser.deleteEvent, req, res);
     }
 }
-
-
-
-
-
-
-
 
 export default EventsController;

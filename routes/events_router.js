@@ -12,8 +12,6 @@ const router = Router();
 // e.g. /basketball/nba, basketball/wnba, /soccer/uefa, /soccer/fifawcup
 
 const eventsController = new EventsController();
-
-router.route("/")
     
 router.route("/id")
     .get(eventsController.getAllEvents)
@@ -24,14 +22,23 @@ router.route("/id/:id")
     .patch(eventsController.patchEvent)
     .delete(eventsController.deleteEvent);
 
-router.route("/:classification")
+router.route("/type/:classification")
     .get(eventsController.getSpecificClassification);
 
-router.route("/:classification/:type")
+router.route("/type/:classification/:type")
     .get(eventsController.getSpecificType);
 
-router.route("/:classification/:type/:league")
+router.route("/type/:classification/:type/:league")
     .get(eventsController.getSpecificLeague);
+
+router.route("/location/:state")
+    .get(eventsController.getSpecificState);
+
+router.route("/location/:state/:city")
+    .get(eventsController.getSpecificCity);
+
+router.route("/location/:state/:city/:venue")
+    .get(eventsController.getSpecificVenue);
 
 
 export default router;

@@ -1,7 +1,11 @@
 import Query from "./query.js";
 
 class EventQuery extends Query{
-    getGetBasicTemplate() {
+    #getEventsTemplate = () => {
+        const stateTable = this.schema.stateTable;
+        const cityTable = this.schema.cityTable;
+        const performerEventRelation = this.schema.performerEventRelation;
+        const performerTable = this.schema.performerTable;
         const eventTable = this.schema.eventTable;
         const eventLeague = this.schema.eventLeagueTable;
         const eventType = this.schema.eventTypeTable;
@@ -18,7 +22,10 @@ class EventQuery extends Query{
             ect.${eventClassification.classificationName},
             ett.${eventType.typeName},
             elt.${eventLeague.leagueName},
-            vt.${venue.venueName}
+            st.${stateTable.stateName},
+            ct.${cityTable.cityName},
+            vt.${venue.venueName},
+            pt.${performerTable.performerName}
         from ${eventTable.tableName} et
         left join ${eventLeague.tableName} elt
             on elt.${eventLeague.leagueID} = et.${eventTable.leagueID}
@@ -27,44 +34,75 @@ class EventQuery extends Query{
         left join ${eventClassification.tableName} ect
             on ett.${eventType.classificationID} = ect.${eventClassification.classificationID}
         left join ${venue.tableName} vt
-            on vt.${venue.venueID} = et.${eventTable.venueID}`;
+            on vt.${venue.venueID} = et.${eventTable.venueID}
+        left join ${cityTable.tableName} ct
+            on ct.${cityTable.cityID} = vt.${venue.cityID}
+        left join ${stateTable.tableName} st
+            on st.${stateTable.stateID} = ct.${cityTable.stateID}
+        left join ${performerEventRelation.tableName} per
+            on et.${eventTable.eventID} = per.${performerEventRelation.eventID}
+        left join ${performerTable.tableName} pt
+            on per.${performerEventRelation.performerID} = pt.${performerTable.performerID}
+        `;
     }
-    getAllEvents() {
-        return this.getGetBasicTemplate() + `;`;
+    getAllEvents = () => {
+        return this.#getEventsTemplate() + ';';
     }
 
-    getSpecificClassification(classificationName) {
+    getSpecificClassification = (classificationName) => {
         const ect = this.schema.eventClassificationTable
-        return this.getGetBasicTemplate() +
-            " " +
+        return this.#getEventsTemplate() +
             `where lower(ect.${ect.classificationName}) = lower(${classificationName});`;
     }
 
-    getSpecificType(classificationName, typeName) {
-        const ect = this.schema.eventClassificationTable;
+    getSpecificType = (classificationName, typeName) => {
         const ett = this.schema.eventTypeTable;
-        return this.getGetBasicTemplate() + " " +
+        return this.#getEventsTemplate() +
             `where lower(ect.${ect.classificationName}) = lower(${classificationName})
                     and lower(ett.${ett.typeName}) = lower(${typeName});`;
     }
 
-    getSpecificLeague(classificationName, typeName, leagueName) {
+    getSpecificLeague = (classificationName, typeName, leagueName) => {
         const ect = this.schema.eventClassificationTable;
         const ett = this.schema.eventTypeTable;
         const elt = this.schema.eventLeagueTable;
-        return this.getGetBasicTemplate() + " " +
+        return this.#getEventsTemplate() +
             `where lower(ect.${ect.classificationName}) = lower(${classificationName})
                 and lower(ett.${ett.typeName}) = lower(${typeName})
-                and lower(elt.${elt.leagueName}) = lower(${leagueName});`
+                and lower(elt.${elt.leagueName}) = lower(${leagueName});`;
     }
 
-    getSpecificEvent(eventID) {
-        const eventTable = this.schema.eventTable;
-        return this.getGetBasicTemplate() + " " +
-            `where ${eventTable.eventID} = ${eventID};`;
+    getSpecificEvent = (eventID) => {
+        const et = this.schema.eventTable;
+        return this.#getEventsTemplate() + 
+            `where et.${et.eventID} = ${eventID};`
     }
 
-    insertEvent(valuesList) {
+    getSpecificState = (stateName) => {
+        const st = this.schema.stateTable;
+        return this.#getEventsTemplate() + 
+            `where lower(st.${st.stateName}) = lower(${stateName});`
+    }
+
+    getSpecificCity = (stateName, cityName) => {
+        const st = this.schema.stateTable;
+        const ct = this.schema.cityTable;
+        return this.#getEventsTemplate() + 
+            `where lower(st.${st.stateName}) = lower(${stateName})
+                and lower(ct.${ct.cityName}) = lower(${cityName});`
+    }
+
+    getSpecificVenue = (stateName, cityName, venueName) => {
+        const st = this.schema.stateTable;
+        const ct = this.schema.cityTable;
+        const vt = this.schema.venueTable;
+        return this.#getEventsTemplate() + 
+            `where lower(st.${st.stateName}) = lower(${stateName})
+                and lower(ct.${ct.cityName}) = lower(${cityName})
+                and lower(vt.${vt.venueName}) = lower(${venueName});`
+    }
+
+    insertEvent = (valuesList) => {
         const eventTable = this.schema.eventTable;
         return `
         insert into
@@ -75,7 +113,8 @@ class EventQuery extends Query{
             ${eventTable.description}, 
             ${eventTable.popularity}, 
             ${eventTable.maxCapacity}, 
-            ${eventTable.venueID})
+            ${eventTable.venueID}
+        )
         values(
             ${valuesList[0]}, 
             ${valuesList[1]}, 
@@ -87,7 +126,7 @@ class EventQuery extends Query{
         returning *;`
     }
 
-    modifyEvent(valuesList) {
+    modifyEvent = (valuesList) => {
         const et = this.schema.eventTable;
         return`
         update ${et.tableName}
@@ -126,7 +165,7 @@ class EventQuery extends Query{
         returning *;`
     }
 
-    deleteEvent(eventID){//delete ticket and performer_event_relation first
+    deleteEvent = (eventID) => {//delete ticket and performer_event_relation first
         const et = this.schema.eventTable;
         return`
         delete from ${et.tableName}
