@@ -7,14 +7,21 @@ class Controller {
 
     parseRes = async (parseReq, req, res) => {
         try {
+            var status;
             const obj = await parseReq(req);
             if (obj && obj.length != 0) {
-                res.json(obj);
+                status = 200;
+                res.status(status).json(
+                    {
+                        "status": status,
+                        "return_value": obj
+                    }
+                );
             }
             else {
-                const status = 404
+                status = 404;
                 res.status(status)
-                    .send(
+                    .json(
                         {
                             "status": status,
                             "msg": "Object not found",
@@ -25,13 +32,12 @@ class Controller {
             }
         }
         catch (e) {
-            console.log(e);
-            const status = 500
+            const status = 500;
             res.status(status)
-                .send(
+                .json(
                     {
-                        "msg": e,
-                        "status": status
+                        "status": status,
+                        "msg": e
                     }
                 );
         }
