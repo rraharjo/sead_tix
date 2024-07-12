@@ -118,8 +118,9 @@ create table customer_table(
 create table ticket_table(
     ticket_id           serial          primary key,
     ticket_type         varchar(255),
-    event_id    int             not null,
-    customer_id         int
+    event_id            int             not null,
+    customer_id         int,
+    ticket_status       int             not null
 );
 
 alter table ticket_table

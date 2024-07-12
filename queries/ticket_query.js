@@ -12,7 +12,8 @@ class TicketQuery extends Query{
             tt.${ticketTable.ticketType},
             tp.${ticketPrice.ticketPrice},
             et.${eventTable.eventName},
-            ct.${customerTable.customerID}
+            ct.${customerTable.customerID},
+            tt.${ticketTable.ticketStatus}
         from ${eventTable.tableName} et
         left join ${ticketTable.tableName} tt
             on tt.${ticketTable.eventID} = et.${eventTable.eventID}
@@ -126,6 +127,32 @@ class TicketQuery extends Query{
                 and ${ticketPriceTable.ticketType} = ${ticketType}
             returning *;
         `
+    }
+
+    buyTicket = (ticketID, customerID) => {
+        const ticketTable = this.schema.ticketTable;
+        return `
+            update
+            ${ticketTable.tableName}
+            set
+                ${ticketTable.customerID} = 
+                    case
+                        when ${customerID} is null then ${ticketTable.customerID}
+                        else ${customerID}
+                    end,
+                ${ticketTable.ticketStatus} = 1
+            where ${ticketTable.ticketID} = ${ticketID}
+            returning *;
+        `;
+    }
+
+    getEventName = (eventID) => {
+        const eventTable = this.schema.eventTable;
+        return `
+            select ${eventTable.eventName}
+            from ${eventTable.tableName}
+            where ${eventTable.eventID} = ${eventID};
+        `;
     }
 }
 

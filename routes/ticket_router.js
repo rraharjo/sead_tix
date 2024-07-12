@@ -23,6 +23,9 @@ router.route("/tickets/:eventID/:ticketType")
 
 router.route("/ticketid/:ticketID")
     .get(ticketController.getSpecificTicket);
+
+router.route("/buy/:ticketID")
+    .patch(ticketController.buyTicket)
     //buy
 
 

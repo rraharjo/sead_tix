@@ -92,6 +92,15 @@ class TicketRequestParser extends RequestParser {
         );
         return values.rows;
     }
+
+    buyTicket = async (req) => {
+        const ticketID = properQueryInt(req.params.ticketID);
+        const buyer = properQueryInt(req.body.customer_id);
+        const values = await this.pool.query(
+            this.query.buyTicket(ticketID, buyer)
+        );
+        return values.rows;
+    }
 }
 
 const properQueryStr = (theStr) => {

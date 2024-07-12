@@ -1,6 +1,7 @@
 import express, { json } from 'express';
 import eventsRouter from './routes/events_router.js';
 import ticketRouter from './routes/ticket_router.js';
+import Mailer from './mailer/mailer.js';
 const app = express()
 
 const port = 3000;

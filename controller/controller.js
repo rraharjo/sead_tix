@@ -5,6 +5,39 @@ class Controller {
         this.requestParser = requestParser;
     }
 
+    successfulResponse = (obj, res) => {
+        const status = 200;
+        res.status(status).json(
+            {
+                "status": status,
+                "return_value": obj
+            }
+        );
+    }
+
+    notFoundResponse = (req, res) => {
+        const status = 404;
+        res.status(status)
+            .json(
+                {
+                    "status": status,
+                    "msg": "Object not found",
+                    "parameter": req.params,
+                    "body": req.body
+                }
+            );
+    } 
+
+    errorResponse = (error, res) => {
+        const status = 500;
+        res.status(status)
+            .json(
+                {
+                    "status": status,
+                    "msg": error
+                }
+            );
+    }
     parseRes = async (parseReq, req, res) => {
         try {
             var status;
