@@ -1,8 +1,11 @@
-import RequestParser from "../request/request.js";
+import Query from "../queries/query.js";
+import pool from "../database/db.js";
+
 class Controller {
-    constructor(requestParser) {
-        /** @type {RequestParser} */
-        this.requestParser = requestParser;
+    constructor(query) {
+        /** @type {Query} */
+        this.query = query;
+        this.pool = pool;
     }
 
     successfulResponse = (obj, res) => {

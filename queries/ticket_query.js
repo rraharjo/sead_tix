@@ -44,15 +44,16 @@ class TicketQuery extends Query{
             insert into ${ticketTable.tableName}
             (
                 ${ticketTable.eventID},
-                ${ticketTable.ticketType}
+                ${ticketTable.ticketType},
+                ${ticketTable.ticketStatus}
             )
             values
 
         `
         for (let i = 0 ; i < numOfTicket - 1 ; i++){
-            baseQuery += `(${eventID}, ${ticketType}),\n`;
+            baseQuery += `(${eventID}, ${ticketType}, ${0}),\n`;
         }
-        baseQuery += `(${eventID}, ${ticketType}) returning *;`;
+        baseQuery += `(${eventID}, ${ticketType}, ${0}) returning *;`;
         return baseQuery;
     }
 
@@ -141,7 +142,8 @@ class TicketQuery extends Query{
                         else ${customerID}
                     end,
                 ${ticketTable.ticketStatus} = 1
-            where ${ticketTable.ticketID} = ${ticketID}
+            where ${ticketTable.ticketID} = ${ticketID} 
+                and ${ticketTable.ticketStatus} = 0
             returning *;
         `;
     }
