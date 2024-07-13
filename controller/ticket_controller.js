@@ -193,13 +193,44 @@ class TicketController extends Controller{
         }
     }
 
-    buyTicket = async (req, res) => {
+    buyTicketByID = async (req, res) => {
         try {
             const ticketID = QueryUtil.properQueryInt(req.params.ticketID);
             const buyer = QueryUtil.properQueryInt(req.body.customer_id);
             const recipient = req.body.recipient;
             var values = await this.pool.query(
-                this.query.buyTicket(ticketID, buyer)
+                this.query.buyTicketByID(ticketID, buyer)
+            );
+            const obj = values.rows;
+            if (obj && obj.length > 0){
+                var emailObj = "Below is your ticket: \n";
+                const eventID = QueryUtil.properQueryInt(obj[0].event_id);
+                console.log(obj[0].event_id);
+                values = await this.pool.query(this.query.getEventName(eventID)); 
+                console.log(values.rows);
+                emailObj += "event Name: " + values.rows[0].event_name;
+                emailObj += obj[0].ticket_type + "\n";
+                emailObj += obj[0].event_id + "\n";
+                this.mailer.sendEmail(recipient, emailObj);
+                this.successfulResponse(obj, res);
+            }
+            else{
+                this.notFoundResponse(req, res);
+            }
+        }
+        catch (e) {
+            this.errorResponse(e, res);
+        }
+    }
+
+    buyTicketByType = async (req, res) => {
+        try {
+            const eventID = QueryUtil.properQueryInt(req.params.eventID);
+            const ticketType = QueryUtil.properQueryStr(req.params.ticketType);
+            const buyer = QueryUtil.properQueryInt(req.body.customer_id);
+            const recipient = req.body.recipient;
+            var values = await this.pool.query(
+                this.query.buyTicketByType(eventID, ticketType, buyer)
             );
             const obj = values.rows;
             if (obj && obj.length > 0){

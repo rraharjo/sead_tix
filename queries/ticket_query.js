@@ -130,7 +130,7 @@ class TicketQuery extends Query{
         `
     }
 
-    buyTicket = (ticketID, customerID) => {
+    buyTicketByID = (ticketID, customerID) => {
         const ticketTable = this.schema.ticketTable;
         return `
             update
@@ -144,6 +144,30 @@ class TicketQuery extends Query{
                 ${ticketTable.ticketStatus} = 1
             where ${ticketTable.ticketID} = ${ticketID} 
                 and ${ticketTable.ticketStatus} = 0
+            returning *;
+        `;
+    }
+
+    buyTicketByType = (eventID, ticketType, customerID) => {
+        const ticketTable = this.schema.ticketTable;
+        return `
+            update
+            ${ticketTable.tableName}
+            set
+                ${ticketTable.customerID} = 
+                    case
+                        when ${customerID} is null then ${ticketTable.customerID}
+                        else ${customerID}
+                    end,
+                ${ticketTable.ticketStatus} = 1
+            where ${ticketTable.ticketID} in 
+                    (select ${ticketTable.ticketID}
+                    from ${ticketTable.tableName}
+                        where ${ticketTable.ticketStatus} = 0
+                            and ${ticketTable.eventID} = ${eventID}
+                            and ${ticketTable.ticketType} = ${ticketType}
+                        limit 1
+                    )
             returning *;
         `;
     }

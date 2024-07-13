@@ -41,6 +41,7 @@ class Controller {
                 }
             );
     }
+    
     parseRes = async (parseReq, req, res) => {
         try {
             var status;
