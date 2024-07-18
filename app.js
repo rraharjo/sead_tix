@@ -1,7 +1,7 @@
 import express, { json } from 'express';
 import eventsRouter from './routes/events_router.js';
 import ticketRouter from './routes/ticket_router.js';
-import Mailer from './mailer/mailer.js';
+import searchRouter from './routes/search_router.js'
 const app = express()
 
 const port = 3000;
@@ -12,6 +12,7 @@ app.use(json());
 //routes
 app.use("/api/v1/events", eventsRouter);
 app.use("/api/v1/ticket", ticketRouter);
+app.use("/api/v1/search", searchRouter);
 
 
 //start server
