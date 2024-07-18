@@ -164,6 +164,25 @@ class EventsController extends Controller{
         }
     }
 
+    getSpecificPerformer = async (req, res) => {
+        try{
+            console.log(performerName);
+            const queryReturn = await this.pool.query(
+                this.query.getSpecificPerformer(performerName)
+            );
+            const value = queryReturn.rows;
+            if (value && value.length > 0){
+                this.successfulResponse(value, res);
+            }
+            else{
+                this.notFoundResponse(req, res);
+            }
+        }
+        catch (e) {
+            this.errorResponse(e, res);
+        }
+    }
+
     addEvent = async (req, res) => {
         try{
             const leagueID = QueryUtil.properQueryInt(req.body.league_id);

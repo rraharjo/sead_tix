@@ -40,5 +40,8 @@ router.route("/location/:state/:city")
 router.route("/location/:state/:city/:venue")
     .get(eventsController.getSpecificVenue);
 
+router.route("/performer/:performerName")
+    .get(eventsController.getSpecificPerformer);
+
 
 export default router;

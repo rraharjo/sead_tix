@@ -102,6 +102,12 @@ class EventQuery extends Query{
                 and lower(vt.${vt.venueName}) = lower(${venueName});`
     }
 
+    getSpecificPerformer = (performerName) => {
+        const pt = this.schema.performerTable;
+        return this.#getEventsTemplate() + 
+            `where lower(pt.${pt.performerName}) = lower(${performerName});`
+    }
+
     insertEvent = (valuesList) => {
         const eventTable = this.schema.eventTable;
         return `
