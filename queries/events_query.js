@@ -1,3 +1,4 @@
+import TicketPrice from "../database/tables/ticket_price.js";
 import Query from "./query.js";
 
 class EventQuery extends Query{
@@ -11,6 +12,7 @@ class EventQuery extends Query{
         const eventType = this.schema.eventTypeTable;
         const eventClassification = this.schema.eventClassificationTable;
         const venue = this.schema.venueTable;
+        const ticketPrice = this.schema.ticketPrice;
         return `
         select 
             et.${eventTable.eventID},
@@ -25,7 +27,8 @@ class EventQuery extends Query{
             st.${stateTable.stateName},
             ct.${cityTable.cityName},
             vt.${venue.venueName},
-            pt.${performerTable.performerName}
+            pt.${performerTable.performerName},
+            temp.${ticketPrice.ticketPrice}
         from ${eventTable.tableName} et
         left join ${eventLeague.tableName} elt
             on elt.${eventLeague.leagueID} = et.${eventTable.leagueID}
@@ -43,6 +46,12 @@ class EventQuery extends Query{
             on et.${eventTable.eventID} = per.${performerEventRelation.eventID}
         left join ${performerTable.tableName} pt
             on per.${performerEventRelation.performerID} = pt.${performerTable.performerID}
+        left join (
+            select ${ticketPrice.eventID}, min(${ticketPrice.ticketPrice}) as ${ticketPrice.ticketPrice}
+            from ${ticketPrice.tableName}
+            group by ${ticketPrice.eventID}
+        ) temp
+            on temp.${ticketPrice.eventID} = et.${eventTable.eventID}
         `;
     }
     getAllEvents = () => {

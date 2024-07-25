@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import datasource from "@/source/url"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { tourData } from "@/data/tours";
 import Image from "next/image";
 import Link from "next/link";
 import { FaThumbtack } from 'react-icons/fa';
@@ -11,7 +13,20 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FaArrowRight } from 'react-icons/fa';
 
+
 export default function Musik() {
+  const [musicEvents, setMusicEvents] = useState([]);
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  useEffect(() => {
+    async function getMusicEvents() {
+      const response = await axios.get(apiAddress + "/events/type/concert");
+      const data = response.data.return_value;
+      setMusicEvents(data);
+    }
+    if (musicEvents.length == 0){
+      getMusicEvents();
+    };
+  }, []);
   return (
     <section className="layout-pt-sm">
       <div className="container">
@@ -57,10 +72,10 @@ export default function Musik() {
                   },
                 }}
               >
-                {tourData.map((elm, i) => (
-                  <SwiperSlide key={i}>
+                {musicEvents.map((music) => (
+                  <SwiperSlide key={music.event_id}>
                     <Link
-                      href={`/event-single/${elm.id}`}
+                      href={`/event-single/${music.event_id}`}
                       className="tourCard -type-1 d-block bg-white"
                     >
                       <div className="tourCard__header">
@@ -68,7 +83,7 @@ export default function Musik() {
                           <Image
                             width={421}
                             height={301}
-                            src={elm.imageSrc}
+                            src={music.imageSrc}
                             alt="image"
                             className="img-ratio rounded-12"
                           />
@@ -81,22 +96,22 @@ export default function Musik() {
 
                       <div className="tourCard__content pt-10">
                         <div className="tourCard__location d-flex items-center text-13 text-light-2">
-                          <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack/></i>
-                          {elm.location}
+                          <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack /></i>
+                          {music.city_name}
                         </div>
 
                         <h3 className="tourCard__title text-16 fw-500 mt-5">
-                          <span>{elm.title}</span>
+                          <span>{music.event_name}</span>
                         </h3>
 
                         <div className="d-flex justify-between items-center border-1-top text-13 text-dark-1 pt-10 mt-10">
                           <div className="d-flex items-center">
-                            <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt/></i>
-                            {elm.duration}
+                            <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt /></i>
+                            {music.event_date.substring(0, 10)}
                           </div>
 
                           <div>
-                            Mulai dari <span className="text-16 fw-500">Rp {elm.price}</span>
+                            Mulai dari <span className="text-16 fw-500">Rp {music.ticket_price ? music.ticket_price : '-'}</span>
                           </div>
                         </div>
                       </div>
@@ -109,11 +124,11 @@ export default function Musik() {
 
           <div className="navAbsolute">
             <button className="navAbsolute__button bg-white js-slider1-prev pbp2">
-              <i className="text-14"><FaArrowLeft/></i>
+              <i className="text-14"><FaArrowLeft /></i>
             </button>
 
             <button className="navAbsolute__button bg-white js-slider1-next pbn2">
-            <i className="text-14"><FaArrowRight/></i>
+              <i className="text-14"><FaArrowRight /></i>
             </button>
           </div>
         </div>

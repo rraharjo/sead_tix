@@ -19,7 +19,7 @@ class Controller {
     }
 
     notFoundResponse = (req, res) => {
-        const status = 404;
+        const status = 200;
         res.status(status)
             .json(
                 {

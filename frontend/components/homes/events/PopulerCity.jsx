@@ -3,14 +3,32 @@
 import { tourData } from "@/data/tours";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-const ddlocations = ["New York", "London", "Paris"];
+import axios from "axios";
+import datasource from "@/source/url"
+const ddlocations = ["Jakarta", "Jawa Tengah", "Bali"];
 import { FaThumbtack } from 'react-icons/fa';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
 
 export default function PopulerCity() {
   const [ddActive, setDdActive] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState("New York");
+  const [currentLocation, setCurrentLocation] = useState(ddlocations[0]);
+  const [eventsByCity, setEventsByCity] = useState([]);
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  useEffect(() => {
+    async function getEventsbyCity() {
+      const location = currentLocation;
+      const response = await axios.get(apiAddress + `/events/location/${location}`);
+      const data = response.data.return_value;
+      if (data) {
+        setEventsByCity(data);
+      }
+      else {
+        setEventsByCity([]);
+      }
+    }
+    getEventsbyCity();
+  }, [currentLocation]);
   const dropDownContainer = useRef();
   useEffect(() => {
     const handleClick = (event) => {
@@ -34,11 +52,10 @@ export default function PopulerCity() {
         <div className="row y-gap-10 justify-between items-center y-gap-10">
           <div ref={dropDownContainer} className="col-auto">
             <h2 className="text-30 md:text-24">
-              Terpopuler di 
+              Terpopuler di
               <div
-                className={`dropdown -type-list js-dropdown js-form-dd ${
-                  ddActive ? "is-active" : ""
-                } `}
+                className={`dropdown -type-list js-dropdown js-form-dd ${ddActive ? "is-active" : ""
+                  } `}
                 data-main-value="london"
               >
                 <div
@@ -49,7 +66,7 @@ export default function PopulerCity() {
                     {" "}
                     {currentLocation}
                   </span>
-                  <i className="ml-5"><FaChevronDown size="18"/> </i>
+                  <i className="ml-5"><FaChevronDown size="18" /> </i>
                 </div>
 
                 <div className="dropdown__menu text-16 fw-500 border-1 js-menu-items">
@@ -76,17 +93,11 @@ export default function PopulerCity() {
           data-aos-delay=""
           className="row y-gap-30 pt-40 sm:pt-20"
         >
-          {tourData
-            .filter((elm) =>
-              elm.location
-                .toLowerCase()
-                .includes(currentLocation.toLowerCase()),
-            )
-            .slice(0, 4)
-            .map((elm, i) => (
-              <div key={i} className="col-lg-3 col-md-6">
+          {eventsByCity
+            .map((e) => (
+              <div key={e.event_id} className="col-lg-3 col-md-6">
                 <a
-                  href={`/event-single/${elm.id}`}
+                  href={`/event-single/${e.event_id}`}
                   className="tourCard -type-1 d-block border-1 bg-white hover-shadow-1 overflow-hidden rounded-12 bg-white -hover-shadow"
                 >
                   <div className="tourCard__header">
@@ -94,7 +105,7 @@ export default function PopulerCity() {
                       <Image
                         width={421}
                         height={301}
-                        src={elm.imageSrc}
+                        src={e.imageSrc}
                         alt="image"
                         className="img-ratio"
                       />
@@ -107,12 +118,12 @@ export default function PopulerCity() {
 
                   <div className="tourCard__content px-20 py-10">
                     <div className="tourCard__location d-flex items-center text-13 text-light-2">
-                      <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack/></i>
-                      {elm.location}
+                      <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack /></i>
+                      {e.city_name}
                     </div>
 
                     <h3 className="tourCard__title text-16 fw-500 mt-5">
-                      <span>{elm.title}</span>
+                      <span>{e.event_name}</span>
                     </h3>
 
                     {/* <div className="tourCard__rating text-13 mt-5">
@@ -129,13 +140,13 @@ export default function PopulerCity() {
 
                     <div className="d-flex justify-between items-center border-1-top text-13 text-dark-1 pt-10 mt-10">
                       <div className="d-flex items-center">
-                        <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt/></i>
-                        {elm.duration}
+                        <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt /></i>
+                        {e.event_date.substring(0, 10)}
                       </div>
 
                       <div>
                         Mulai dari{" "}
-                        <span className="text-16 fw-500">Rp {elm.price}</span>
+                        <span className="text-16 fw-500">Rp {e.ticket_price}</span>
                       </div>
                     </div>
                   </div>
