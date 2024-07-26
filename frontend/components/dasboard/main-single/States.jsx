@@ -1,7 +1,6 @@
-import { states } from "@/data/dashboard";
 import React from "react";
 
-export default function States() {
+export default function States({ states }) {
   return (
     <div className="row y-gap-30 pt-60 md:pt-30">
       {states.map((elm, i) => (
@@ -18,6 +17,7 @@ export default function States() {
               </div>
 
               <div className="col-auto">
+                {/* Uncomment if you want to use icons */}
                 {/* <div className="size-80 flex-center bg-accent-1-05 rounded-full">
                   <i className={`text-30 ${elm.iconClass}`}></i>
                 </div> */}

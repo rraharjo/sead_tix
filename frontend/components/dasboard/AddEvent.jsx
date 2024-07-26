@@ -6,7 +6,7 @@ import Image from "next/image";
 import Map from "../pages/contact/Map";
 
 const tabs = ["Content", "Location", "Pricing", "Included"];
-export default function AddTour() {
+export default function AddEvent() {
   const [sideBarOpen, setSideBarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("Content");
   const [image1, setImage1] = useState("");
@@ -41,8 +41,8 @@ export default function AddTour() {
           <Header setSideBarOpen={setSideBarOpen} />
 
           <div className="dashboard__content_content">
-            <h1 className="text-30">Add Tour</h1>
-            <p className="">Lorem ipsum dolor sit amet, consectetur.</p>
+            <h1 className="text-30">Add Event</h1>
+            <p className="">We will review and get back to you after you submit this form!</p>
 
             <div className="rounded-12 bg-white shadow-2 px-40 pt-40 pb-30 mt-60">
               <div className="tabs -underline-2 js-tabs">
@@ -77,7 +77,7 @@ export default function AddTour() {
                             <div className="form-input ">
                               <input type="text" required />
                               <label className="lh-1 text-16 text-light-1">
-                                Tour Title
+                                Event Title
                               </label>
                             </div>
                           </div>
@@ -764,7 +764,7 @@ export default function AddTour() {
             </div>
 
             <div className="text-center pt-30">
-              © Copyright Viatours {new Date().getFullYear()}
+              © Copyright Seadtix {new Date().getFullYear()}
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import BookingPages from "@/components/pages/BookingPages";
 import React from "react";
 
 export const metadata = {
-  title: "Booking-page | Seadtix - Beli Tiketmu Untuk Semua Jenis Acara",
+  title: "Booking | Seadtix - Beli Tiketmu Untuk Semua Jenis Acara",
   description: "Seadtix - Beli Tiketmu Untuk Semua Jenis Acara",
 };
 
