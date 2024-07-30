@@ -7,6 +7,7 @@ import SidebarEvent from "./Sidebar-event";
 import Header from "./Header";
 import Pagination from "../common/Pagination";
 import { bookingData } from "@/data/dashboard";
+import { FaSearch } from 'react-icons/fa';
 
 const tabs = ["All", "Approved", "Pending", "Cancelled"];
 
@@ -17,6 +18,7 @@ export default function DbBooking({ isSpecific = false }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortKey, setSortKey] = useState("orderNumber");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [category, setCategory] = useState("");
   const itemsPerPage = 10; // Number of items per page
 
   const handleSort = (key) => {
@@ -87,6 +89,33 @@ export default function DbBooking({ isSpecific = false }) {
                     </button>
                   </div>
                 ))}
+              </div>
+
+              <div className="searchForm -type-10">
+                <div className="searchForm__form">
+                  <div className="searchFormItem js-select-control">
+                      <div className="searchFormItem__content">
+                        <div className="js-select-control-chosen">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                  </div>
+                  <div className="searchForm__button">
+                    <button
+                      onClick={() => router.push("/tour-list-1")}
+                      className="button -dark-1 bg-accent-1 text-white"
+                    >
+                      <i className="mr-10"><FaSearch size="15"/> </i>
+                      Search
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="tabs__content js-tabs-content flex-grow">
