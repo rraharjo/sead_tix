@@ -53,17 +53,29 @@ export const eventSidebarItems = (eventId) => [
   },
   {
     id: 4,
+    href: `/db-ticketing/${eventId}`,
+    iconClass: "icon-reservation text-26",
+    label: "Ticketing",
+  },
+  {
+    id: 5,
     href: `/db-crew/${eventId}`,
     iconClass: "icon-teamwork text-26",
     label: "My Crew",
   },
   {
-    id: 5,
+    id: 6,
     href: `/db-gating/${eventId}`,
     iconClass: "icon-star-2 text-26",
-    label: "Event Gating",
+    label: "Gating",
   },
-  { id: 6, href: "/", iconClass: "icon-logout text-26", label: "Logout" },
+  {
+    id: 7,
+    href: `/db-general/${eventId}`,
+    iconClass: "icon-booking text-26",
+    label: "General",
+  },
+  { id: 8, href: "/", iconClass: "icon-logout text-26", label: "Logout" },
 ];
 
 export const states = [
@@ -195,105 +207,314 @@ export const tabContentStaticties = [
   },
 ];
 
+export const ticketData = [
+  {
+    eventId: "1",
+    name: "VIP Ticket",
+    price: 100.0,
+    quota: 50,
+    sold: 25,
+    status: "listed"
+  },
+  {
+    eventId: "1",
+    name: "General Admission",
+    price: 50.0,
+    quota: 200,
+    sold: 150,
+    status: "listed"
+  },
+  {
+    eventId: "1",
+    name: "Early Bird",
+    price: 40.0,
+    quota: 100,
+    sold: 80,
+    status: "listed"
+  },
+  {
+    eventId: "2",
+    name: "Standard Ticket",
+    price: 75.0,
+    quota: 150,
+    sold: 150,
+    status: "soldout"
+  },
+  {
+    eventId: "2",
+    name: "Premium Ticket",
+    price: 120.0,
+    quota: 100,
+    sold: 100,
+    status: "soldout"
+  },
+  {
+    eventId: "3",
+    name: "Student Ticket",
+    price: 30.0,
+    quota: 200,
+    sold: 200,
+    status: "sold out by admin"
+  },
+  {
+    eventId: "3",
+    name: "Regular Ticket",
+    price: 60.0,
+    quota: 150,
+    sold: 100,
+    status: "listed"
+  },
+];
+
+export const gateData = [
+  {
+    key: 1,
+    gateName: "Main Entrance",
+    crew: ["Crew 1", "Crew 2"],
+    scans: 120,
+    eventId: "1"
+  },
+  {
+    key: 2,
+    gateName: "VIP Entrance",
+    crew: ["Crew 3"],
+    scans: 50,
+    eventId: "1"
+  },
+  {
+    key: 3,
+    gateName: "Side Entrance",
+    crew: ["Crew 4", "Crew 5"],
+    scans: 80,
+    eventId: "1"
+  },
+  {
+    key: 4,
+    gateName: "Back Entrance",
+    crew: ["Crew 6"],
+    scans: 30,
+    eventId: "1"
+  },
+  {
+    key: 5,
+    gateName: "North Gate",
+    crew: ["Crew 7"],
+    scans: 100,
+    eventId: "2"
+  },
+  {
+    key: 6,
+    gateName: "South Gate",
+    crew: ["Crew 8"],
+    scans: 90,
+    eventId: "2"
+  },
+];
+
+export const allCrewMembers = [
+  "Crew 1",
+  "Crew 2",
+  "Crew 3",
+  "Crew 4",
+  "Crew 5",
+  "Crew 6",
+  "Crew 7",
+  "Crew 8"
+];
+
+
+export const checkInData = [
+  {
+    eventId: "1",
+    name: "John Doe",
+    status: "Checked In",
+    gate: "Gate 1",
+    crew: "Crew A",
+    checkInTime: "10:30 AM",
+  },
+  {
+    eventId: "1",
+    name: "Jane Smith",
+    status: "Checked In",
+    gate: "Gate 2",
+    crew: "Crew B",
+    checkInTime: "11:00 AM",
+  },
+  {
+    eventId: "1",
+    name: "Alice Johnson",
+    status: "Not Checked In",
+    gate: "",
+    crew: "",
+    checkInTime: "",
+  },
+];
+
+export const ticketHolderData = [
+  {
+    eventId: "1",
+    name: "John Doe",
+    ticketType: "VIP Ticket",
+    bookingId: "B12345",
+    ticketNumber: "T0011"
+  },
+  {
+    eventId: "1",
+    name: "John Doe2",
+    ticketType: "VIP Ticket",
+    bookingId: "B12345",
+    ticketNumber: "T0021"
+  },
+  {
+    eventId: "1",
+    name: "John Doe3",
+    ticketType: "VIP Ticket",
+    bookingId: "B12345",
+    ticketNumber: "T0031"
+  },
+  {
+    eventId: "1",
+    name: "Jane Smith",
+    ticketType: "General Admission",
+    bookingId: "B12346",
+    ticketNumber: "T0002"
+  },
+  {
+    eventId: "1",
+    name: "Alice Johnson",
+    ticketType: "Early Bird",
+    bookingId: "B12347",
+    ticketNumber: "T0003"
+  },
+  {
+    eventId: "2",
+    name: "Bob Brown",
+    ticketType: "Standard Ticket",
+    bookingId: "B12348",
+    ticketNumber: "T0004"
+  },
+  {
+    eventId: "2",
+    name: "Charlie Davis",
+    ticketType: "Premium Ticket",
+    bookingId: "B12349",
+    ticketNumber: "T0005"
+  },
+  {
+    eventId: "3",
+    name: "Eve White",
+    ticketType: "Student Ticket",
+    bookingId: "B12350",
+    ticketNumber: "T0006"
+  },
+  {
+    eventId: "3",
+    name: "Frank Green",
+    ticketType: "Regular Ticket",
+    bookingId: "B12351",
+    ticketNumber: "T0007"
+  },
+];
+
 export const bookingData = [
   {
     id: 1,
-    orderNumber: "#001",
+    orderNumber: "B12345",
     eventId: "1",
     username: "alice",
     bookingDate: "11 April 2023",
-    numberOfPeople: "2 People",
-    cost: "$100.00",
+    numberOfTickets: 3,
+    totalCost: "$300.00",
     status: "Approved",
   },
   {
     id: 2,
-    orderNumber: "#002",
+    orderNumber: "B12346",
     eventId: "1",
     username: "bob",
     bookingDate: "12 April 2023",
-    numberOfPeople: "4 People",
-    cost: "$200.00",
+    numberOfTickets: 4,
+    totalCost: "$200.00",
     status: "Pending",
   },
   {
     id: 3,
-    orderNumber: "#003",
+    orderNumber: "B12347",
     eventId: "1",
     username: "charlie",
     bookingDate: "13 April 2023",
-    numberOfPeople: "1 Person",
-    cost: "$50.00",
+    numberOfTickets: 1,
+    totalCost: "$50.00",
     status: "Cancelled",
   },
   {
     id: 4,
-    orderNumber: "#004",
+    orderNumber: "B12348",
     eventId: "1",
     username: "david",
     bookingDate: "14 April 2023",
-    numberOfPeople: "3 People",
-    cost: "$150.00",
+    numberOfTickets: 3,
+    totalCost: "$150.00",
     status: "Approved",
   },
   {
     id: 5,
-    orderNumber: "#005",
+    orderNumber: "B12349",
     eventId: "1",
     username: "eve",
     bookingDate: "15 April 2023",
-    numberOfPeople: "5 People",
-    cost: "$250.00",
+    numberOfTickets: 5,
+    totalCost: "$250.00",
     status: "Pending",
   },
   {
     id: 6,
-    orderNumber: "#006",
+    orderNumber: "B12350",
     eventId: "2",
     username: "frank",
     bookingDate: "16 April 2023",
-    numberOfPeople: "2 People",
-    cost: "$120.00",
+    numberOfTickets: 2,
+    totalCost: "$120.00",
     status: "Approved",
   },
   {
     id: 7,
-    orderNumber: "#007",
+    orderNumber: "B12351",
     eventId: "2",
     username: "grace",
     bookingDate: "17 April 2023",
-    numberOfPeople: "3 People",
-    cost: "$180.00",
+    numberOfTickets: 3,
+    totalCost: "$180.00",
     status: "Pending",
   },
   {
     id: 8,
-    orderNumber: "#008",
+    orderNumber: "B12352",
     eventId: "2",
     username: "henry",
     bookingDate: "18 April 2023",
-    numberOfPeople: "1 Person",
-    cost: "$60.00",
+    numberOfTickets: 1,
+    totalCost: "$60.00",
     status: "Cancelled",
   },
   {
     id: 9,
-    orderNumber: "#009",
+    orderNumber: "B12353",
     eventId: "2",
     username: "irene",
     bookingDate: "19 April 2023",
-    numberOfPeople: "4 People",
-    cost: "$240.00",
+    numberOfTickets: 4,
+    totalCost: "$240.00",
     status: "Approved",
   },
   {
     id: 10,
-    orderNumber: "#010",
+    orderNumber: "B12354",
     eventId: "2",
     username: "jack",
     bookingDate: "20 April 2023",
-    numberOfPeople: "5 People",
-    cost: "$300.00",
+    numberOfTickets: 5,
+    totalCost: "$300.00",
     status: "Pending",
   },
 ];

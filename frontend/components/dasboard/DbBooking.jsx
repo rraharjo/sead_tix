@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import Sidebar from "./Sidebar";
@@ -7,7 +6,10 @@ import SidebarEvent from "./Sidebar-event";
 import Header from "./Header";
 import Pagination from "../common/Pagination";
 import { bookingData } from "@/data/dashboard";
+import { ticketHolderData } from "@/data/dashboard";
 import { FaSearch } from 'react-icons/fa';
+import ModalEditBooking from '../common/Modal/ModalEditBooking';
+import ModalDeleteBooking from '../common/Modal/ModalDeleteBooking';
 
 const tabs = ["All", "Approved", "Pending", "Cancelled"];
 
@@ -19,11 +21,43 @@ export default function DbBooking({ isSpecific = false }) {
   const [sortKey, setSortKey] = useState("orderNumber");
   const [sortOrder, setSortOrder] = useState("asc");
   const [category, setCategory] = useState("");
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const itemsPerPage = 10; // Number of items per page
 
   const handleSort = (key) => {
     setSortOrder(sortKey === key && sortOrder === "asc" ? "desc" : "asc");
     setSortKey(key);
+  };
+
+  const handleEditClick = (booking) => {
+    const bookingWithHolders = {
+      ...booking,
+      ticketHolders: ticketHolderData.filter((holder) => holder.bookingId === booking.orderNumber),
+    };
+    setSelectedBooking(bookingWithHolders);
+    setIsEditModalOpen(true);
+  };
+
+  const handleDeleteClick = (booking) => {
+    setSelectedBooking(booking);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleEditSave = (updatedBooking) => {
+    // Save the updated booking (update the state or send to backend)
+    setIsEditModalOpen(false);
+    // Update the bookingData here or send it to the backend
+    console.log("Updated Booking:", updatedBooking);
+  };
+
+  const handleDeleteConfirm = () => {
+    // Delete the booking (update the state or send to backend)
+    setIsDeleteModalOpen(false);
+    // Remove the booking from bookingData here or send the request to the backend
+    console.log("Deleted Booking:", selectedBooking);
   };
 
   // Filter bookings by event ID if specific
@@ -133,11 +167,11 @@ export default function DbBooking({ isSpecific = false }) {
                           <th onClick={() => handleSort("bookingDate")} style={{ width: "15%" }}>
                             Booking Date {sortKey === "bookingDate" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
                           </th>
-                          <th onClick={() => handleSort("numberOfPeople")} style={{ width: "10%" }}>
-                            Details {sortKey === "numberOfPeople" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
+                          <th onClick={() => handleSort("numberOfTickets")} style={{ width: "10%" }}>
+                            Tickets {sortKey === "numberOfTickets" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
                           </th>
-                          <th onClick={() => handleSort("cost")} style={{ width: "10%" }}>
-                            Price {sortKey === "cost" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
+                          <th onClick={() => handleSort("totalCost")} style={{ width: "10%" }}>
+                            Total Cost {sortKey === "totalCost" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
                           </th>
                           <th onClick={() => handleSort("status")} style={{ width: "10%" }}>
                             Status {sortKey === "status" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
@@ -152,8 +186,8 @@ export default function DbBooking({ isSpecific = false }) {
                             <td className="max-w-300">{elm.orderNumber}</td>
                             <td className="min-w-200">{elm.username}</td>
                             <td className="max-w-300">{elm.bookingDate}</td>
-                            <td className="max-w-300">{elm.numberOfPeople}</td>
-                            <td>{elm.cost}</td>
+                            <td className="max-w-300">{elm.numberOfTickets}</td>
+                            <td>{elm.totalCost}</td>
                             <td>
                               <div className={`circle ${elm.status === "Approved" ? "text-purple-1" : elm.status === "Pending" ? "text-yellow-1" : "text-red-2"}`}>
                                 {elm.status}
@@ -161,10 +195,10 @@ export default function DbBooking({ isSpecific = false }) {
                             </td>
                             <td>
                               <div className="d-flex items-center">
-                                <button className="button -dark-1 size-35 bg-light-1 rounded-full flex-center">
+                                <button className="button -dark-1 size-35 bg-light-1 rounded-full flex-center" onClick={() => handleEditClick(elm)}>
                                   <i className="icon-pencil text-14"></i>
                                 </button>
-                                <button className="button -dark-1 size-35 bg-light-1 rounded-full flex-center ml-10">
+                                <button className="button -dark-1 size-35 bg-light-1 rounded-full flex-center ml-10" onClick={() => handleDeleteClick(elm)}>
                                   <i className="icon-delete text-14"></i>
                                 </button>
                               </div>
@@ -192,6 +226,20 @@ export default function DbBooking({ isSpecific = false }) {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <ModalEditBooking
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        booking={selectedBooking}
+        onSave={handleEditSave}
+      />
+
+      <ModalDeleteBooking
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDeleteConfirm}
+      />
     </div>
   );
 }

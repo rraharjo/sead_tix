@@ -7,10 +7,11 @@ import SidebarEvent from "./Sidebar-event";
 import Header from "./Header";
 import Pagination from "../common/Pagination";
 import { crewData } from "@/data/dashboard";
-import ModalAddCrew from "../common/ModalAddCrew";
-import ModalToken from "../common/ModalToken";
-import ModalEditCrew from "../common/ModalEditCrew";
-import ModalDeleteCrew from "../common/ModalDeleteCrew";
+import ModalAddCrew from "../common/Modal/ModalAddCrew";
+import ModalToken from "../common/Modal/ModalToken";
+import ModalEditCrew from "../common/Modal/ModalEditCrew";
+import ModalDeleteCrew from "../common/Modal/ModalDeleteCrew";
+import { FaSearch } from 'react-icons/fa';
 
 const tabs = ["All", "Gating", "Ticketing"];
 
@@ -26,6 +27,7 @@ export default function DbCrew({ isSpecific = false }) {
   const [isEditCrewModalOpen, setIsEditCrewModalOpen] = useState(false);
   const [isDeleteCrewModalOpen, setIsDeleteCrewModalOpen] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState(null);
+  const [category, setCategory] = useState("");
 
   const itemsPerPage = 10; // Number of items per page
 
@@ -105,7 +107,7 @@ export default function DbCrew({ isSpecific = false }) {
                   onClick={() => setIsAddCrewModalOpen(true)}
                 >
                     <span className="desktop-text">Add Crew</span>
-                    <span className="mobile-text">Add Crew</span>
+                    <span className="mobile-text text-16">Add Crew</span>
                     <i className="icon-person text-16 ml-10"></i>
                 </button>
                 <button
@@ -114,7 +116,7 @@ export default function DbCrew({ isSpecific = false }) {
                   onClick={() => setIsTokenModalOpen(true)}
                 >
                     <span className="desktop-text">Generate Token</span>
-                    <span className="mobile-text">New Token</span>
+                    <span className="mobile-text text-16">New Token</span>
                     <i className="icon-application text-16 ml-10"></i>
                 </button>
             </div>
@@ -141,6 +143,33 @@ export default function DbCrew({ isSpecific = false }) {
                     </button>
                   </div>
                 ))}
+              </div>
+
+              <div className="searchForm -type-10">
+                <div className="searchForm__form">
+                  <div className="searchFormItem js-select-control">
+                      <div className="searchFormItem__content">
+                        <div className="js-select-control-chosen">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                  </div>
+                  <div className="searchForm__button">
+                    <button
+                      onClick={() => router.push("/tour-list-1")}
+                      className="button -dark-1 bg-accent-1 text-white"
+                    >
+                      <i className="mr-10"><FaSearch size="15"/> </i>
+                      Search
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="tabs__content js-tabs-content flex-grow">

@@ -7,8 +7,24 @@ const ModalAddCrew = ({ isOpen, onClose }) => {
   const [role, setRole] = useState('ticketing');
 
   const handleAddCrew = () => {
-    // Handle adding crew logic here
-    console.log({ username, email, role });
+    if (!username || !email || !role) {
+      alert("All fields are required");
+      return;
+    }
+
+    if (username.length <= 6) {
+      alert("Username must be more than 6 characters");
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    const newCrewMember = { username, email, role };
+    console.log(newCrewMember);
     onClose();
   };
 
@@ -19,19 +35,33 @@ const ModalAddCrew = ({ isOpen, onClose }) => {
         <div className="row y-gap-30 contactForm pt-30">
           <div className="col-12">
             <div className="form-input">
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
               <label className="lh-1 text-16 text-light-1">Username</label>
             </div>
           </div>
           <div className="col-12">
             <div className="form-input">
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
               <label className="lh-1 text-16 text-light-1">Email</label>
             </div>
           </div>
           <div className="col-12">
             <div className="form-input">
-              <select value={role} onChange={(e) => setRole(e.target.value)} required>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
                 <option value="ticketing">Ticketing</option>
                 <option value="gating">Gating</option>
               </select>

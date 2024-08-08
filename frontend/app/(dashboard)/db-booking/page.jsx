@@ -2,8 +2,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 export const metadata = {
-  title: "Booking | Seadtix Dashboard - Kelola Acara Anda Dengan Mudah",
-  description: "Seadtix Dashboard - Kelola Acara Anda Dengan Mudah",
+  title: "Booking | Seadtix Dashboard - Kelola Tiket Anda Dengan Mudah",
+  description: "Seadtix Dashboard - Kelola Tiket Anda Dengan Mudah",
 };
 
 const DbBooking = dynamic(() => import('@/components/dasboard/DbBooking'), { ssr: false });

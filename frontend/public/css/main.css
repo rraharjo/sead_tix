@@ -4050,16 +4050,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .searchForm.-type-10 {
   display: flex;
-  padding: 25px 0 0 0 ;
+  padding: 25px 0 0 0;
   height: fit-content;
 }
 
 .searchForm.-type-10 .searchForm__form {
   display: grid;
-  grid-template-columns: 5fr 1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
   padding: 0px;
-  height: 50px;
+  height: auto;
 }
 
 .searchForm.-type-10 .searchFormItem {
@@ -4074,10 +4074,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .searchForm.-type-10 .searchForm__button {
+  width: 100%;
   height: 50px;
 }
 
 .searchForm.-type-10 .searchForm__button button {
+  width: 100%;
   height: 100%;
   padding: 0 20px;
 }
@@ -4086,6 +4088,17 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 20px;
   line-height: 2.4;
   height: 50px;
+}
+
+@media (min-width: 768px) {
+  .searchForm.-type-10 .searchForm__form {
+    grid-template-columns: 5fr 1fr;
+    height: 50px;
+  }
+
+  .searchForm.-type-10 .searchForm__button button {
+    width: auto;
+  }
 }
 
 .searchForm.-type-9 .searchForm__form {
@@ -13891,8 +13904,10 @@ button.gm-ui-s::after {
   background: #fff;
   padding: 30px;
   border-radius: 12px;
-  width: 100%;
-  max-width: 500px;
+  width: 80%; /* Increased width */
+  max-width: 800px; /* Adjusted max width */
+  max-height: 90vh; /* Adjust based on available screen space */
+  overflow-y: auto; /* Ensure content is scrollable if it exceeds the height */
   position: relative;
   box-shadow: none; /* Remove the shadow */
 }
@@ -13908,3 +13923,18 @@ button.gm-ui-s::after {
   color: var(--color-black); /* Improve close button styling */
 }
 
+.modal-body {
+  max-height: calc(90vh - 60px); /* Ensure body is scrollable within available height */
+  overflow-y: auto;
+}
+
+/* Hide spin buttons in number input fields */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+}

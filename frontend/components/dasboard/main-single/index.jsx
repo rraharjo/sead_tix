@@ -7,7 +7,8 @@ import States from "./States";
 import Activities from "./Activities";
 import Statistics from "./Statistics";
 import Header from "../Header";
-import { statesData } from "@/data/dashboard"; // Import the mock data
+import { statesData } from "@/data/dashboard";
+import { tourData } from "@/data/tours";
 
 export default function DBMain() {
   const { id: eventId } = useParams(); // Correct way to get route parameters
@@ -16,13 +17,8 @@ export default function DBMain() {
   // Get the specific states data for the event
   const eventStates = statesData[eventId] || [];
 
-  const mockEventData = {
-    title: "Sample Event",
-    location: "Sample Location",
-    duration: "3 hours",
-    gross: "Rp 9.127.000",
-    // Add more mock data as needed
-  };
+  // Get the specific tour data for the event
+  const mockEventData = tourData.find(tour => tour.id === parseInt(eventId)) || {};
 
   return (
     <div className={`dashboard ${sideBarOpen ? "-is-sidebar-visible" : ""} js-dashboard`}>
