@@ -205,9 +205,7 @@ class TicketController extends Controller{
             if (obj && obj.length > 0){
                 var emailObj = "Below is your ticket: \n";
                 const eventID = QueryUtil.properQueryInt(obj[0].event_id);
-                console.log(obj[0].event_id);
                 values = await this.pool.query(this.query.getEventName(eventID)); 
-                console.log(values.rows);
                 emailObj += "event Name: " + values.rows[0].event_name;
                 emailObj += obj[0].ticket_type + "\n";
                 emailObj += obj[0].event_id + "\n";
@@ -236,9 +234,7 @@ class TicketController extends Controller{
             if (obj && obj.length > 0){
                 var emailObj = "Below is your ticket: \n";
                 const eventID = QueryUtil.properQueryInt(obj[0].event_id);
-                console.log(obj[0].event_id);
                 values = await this.pool.query(this.query.getEventName(eventID)); 
-                console.log(values.rows);
                 emailObj += "event Name: " + values.rows[0].event_name;
                 emailObj += obj[0].ticket_type + "\n";
                 emailObj += obj[0].event_id + "\n";

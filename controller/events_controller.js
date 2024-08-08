@@ -2,21 +2,58 @@ import Controller from "./controller.js";
 import EventQuery from "../queries/events_query.js";
 import QueryUtil from "../util/query_util.js";
 
-class EventsController extends Controller{
+class EventsController extends Controller {
     constructor() {
         super(new EventQuery());
     }
 
     getAllEvents = async (req, res) => {
-        try{
+        const filterClassification = (filter, placeholder, element) => {
+            if (element.event_classification_name.toLowerCase() === filter.toLowerCase()) {
+                placeholder.push(element);
+            }
+            return placeholder;
+        }
+        const filterType = (filter, placeholder, element) => {
+            if (element.event_type_name.toLowerCase() === filter.toLowerCase()) {
+                placeholder.push(element);
+            }
+            return placeholder;
+        }
+        const filterLeague = (filter, placeholder, element) => {
+            if (element.event_league_name.toLowerCase() === filter.toLowerCase()) {
+                placeholder.push(element);
+            }
+            return placeholder;
+        }
+        try {
             const queryReturn = await this.pool.query(
                 this.query.getAllEvents()
             );
-            const value = queryReturn.rows;
-            if (value && value.length > 0){
+            var value = queryReturn.rows;
+            const filters = req.query;
+            if (filters.classification) {
+                value = value.reduce(
+                    filterClassification.bind(null, filters.classification),
+                    []
+                );
+            }
+            if (filters.type) {
+                value = value.reduce(
+                    filterType.bind(null, filters.type),
+                    []
+                )
+            }
+            if (filters.league) {
+                value = value.reduce(
+                    filterLeague.bind(null, filters.league),
+                    []
+                )
+            }
+            if (value) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -25,17 +62,37 @@ class EventsController extends Controller{
         }
     }
 
-    getSpecificClassification = async (req, res) => {
-        try{
+    getAllClassifications = async (req, res) => {
+        try {
+            const queryReturn = await this.pool.query(
+                this.query.getAllClassifications()
+            );
+            var value = queryReturn.rows;
+            value = value.map((elem) => elem.event_classification_name);
+            if (value && value.length > 0) {
+                this.successfulResponse(value, res);
+            }
+            else {
+                this.notFoundResponse(req, res);
+            }
+        }
+        catch (e) {
+            this.errorResponse(e, res);
+        }
+    }
+
+    getClassificationsTypes = async (req, res) => {
+        try {
             const classification = QueryUtil.properQueryStr(req.params.classification);
             const queryReturn = await this.pool.query(
-                this.query.getSpecificClassification(classification)
+                this.query.getClassificationsTypes(classification)
             );
-            const value = queryReturn.rows;
-            if (value && value.length > 0){
+            var value = queryReturn.rows;
+            value = value.map(elem => elem.event_type_name);
+            if (value) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -44,39 +101,19 @@ class EventsController extends Controller{
         }
     }
 
-    getSpecificType = async (req, res) => {
-        try{
+    getTypesLeague = async (req, res) => {
+        try {
             const classification = QueryUtil.properQueryStr(req.params.classification);
             const type = QueryUtil.properQueryStr(req.params.type);
             const queryReturn = await this.pool.query(
-                this.query.getSpecificType(classification, type)
+                this.query.getTypesLeague(classification, type)
             );
-            const value = queryReturn.rows;
-            if (value && value.length > 0){
+            var value = queryReturn.rows;
+            value = value.map(elem => elem.event_league_name);
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
-                this.notFoundResponse(req, res);
-            }
-        }
-        catch (e) {
-            this.errorResponse(e, res);
-        }
-    }
-
-    getSpecificLeague = async (req, res) => {
-        try{
-            const classification = QueryUtil.properQueryStr(req.params.classification);
-            const type = QueryUtil.properQueryStr(req.params.type);
-            const league = QueryUtil.properQueryStr(req.params.league);
-            const queryReturn = await this.pool.query(
-                this.query.getSpecificLeague(classification, type, league)
-            );
-            const value = queryReturn.rows;
-            if (value && value.length > 0){
-                this.successfulResponse(value, res);
-            }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -86,16 +123,16 @@ class EventsController extends Controller{
     }
 
     getSpecificEvent = async (req, res) => {
-        try{
+        try {
             const id = QueryUtil.properQueryInt(req.params.id);
             const queryReturn = await this.pool.query(
                 this.query.getSpecificEvent(id)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -105,16 +142,16 @@ class EventsController extends Controller{
     }
 
     getSpecificState = async (req, res) => {
-        try{
+        try {
             const state = QueryUtil.properQueryStr(req.params.state);
             const queryReturn = await this.pool.query(
                 this.query.getSpecificState(state)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -124,17 +161,17 @@ class EventsController extends Controller{
     }
 
     getSpecificCity = async (req, res) => {
-        try{
+        try {
             const state = QueryUtil.properQueryStr(req.params.state);
             const city = QueryUtil.properQueryStr(req.params.city);
             const queryReturn = await this.pool.query(
                 this.query.getSpecificCity(state, city)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -144,7 +181,7 @@ class EventsController extends Controller{
     }
 
     getSpecificVenue = async (req, res) => {
-        try{
+        try {
             const state = QueryUtil.properQueryStr(req.params.state);
             const city = QueryUtil.properQueryStr(req.params.city);
             const venue = QueryUtil.properQueryStr(req.params.venue);
@@ -152,10 +189,10 @@ class EventsController extends Controller{
                 this.query.getSpecificVenue(state, city, venue)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -165,16 +202,15 @@ class EventsController extends Controller{
     }
 
     getSpecificPerformer = async (req, res) => {
-        try{
-            console.log(performerName);
+        try {
             const queryReturn = await this.pool.query(
                 this.query.getSpecificPerformer(performerName)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -184,7 +220,7 @@ class EventsController extends Controller{
     }
 
     addEvent = async (req, res) => {
-        try{
+        try {
             const leagueID = QueryUtil.properQueryInt(req.body.league_id);
             const eventName = QueryUtil.properQueryStr(req.body.event_name);
             const eventDate = QueryUtil.properQueryStr(req.body.event_date);
@@ -205,10 +241,10 @@ class EventsController extends Controller{
                 )
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -218,7 +254,7 @@ class EventsController extends Controller{
     }
 
     patchEvent = async (req, res) => {
-        try{
+        try {
             const eventID = QueryUtil.properQueryInt(req.params.id);
             const eventName = QueryUtil.properQueryStr(req.body.event_name);
             const eventDate = QueryUtil.properQueryStr(req.body.event_date);
@@ -239,10 +275,10 @@ class EventsController extends Controller{
                 )
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }
@@ -252,16 +288,16 @@ class EventsController extends Controller{
     }
 
     deleteEvent = async (req, res) => {
-        try{
+        try {
             const eventID = QueryUtil.properQueryInt(req.params.id);
             const queryReturn = await this.pool.query(
                 this.query.deleteEvent(eventID)
             );
             const value = queryReturn.rows;
-            if (value && value.length > 0){
+            if (value && value.length > 0) {
                 this.successfulResponse(value, res);
             }
-            else{
+            else {
                 this.notFoundResponse(req, res);
             }
         }

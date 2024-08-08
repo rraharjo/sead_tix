@@ -1,3 +1,4 @@
+import EventTypeTable from "../database/tables/event_type_table.js";
 import TicketPrice from "../database/tables/ticket_price.js";
 import Query from "./query.js";
 
@@ -58,27 +59,39 @@ class EventQuery extends Query{
         return this.#getEventsTemplate() + ';';
     }
 
-    getSpecificClassification = (classificationName) => {
-        const ect = this.schema.eventClassificationTable
-        return this.#getEventsTemplate() +
-            `where lower(ect.${ect.classificationName}) = lower(${classificationName});`;
+    getAllClassifications = () => {
+        const eventClassificationTable = this.schema.eventClassificationTable;
+        return `
+            select ${eventClassificationTable.classificationName} from ${eventClassificationTable.tableName};
+        `;
     }
 
-    getSpecificType = (classificationName, typeName) => {
+    getClassificationsTypes = (classificationName) => {
+        const ect = this.schema.eventClassificationTable;
         const ett = this.schema.eventTypeTable;
-        return this.#getEventsTemplate() +
-            `where lower(ect.${ect.classificationName}) = lower(${classificationName})
-                    and lower(ett.${ett.typeName}) = lower(${typeName});`;
+        return `
+        select ett.${ett.typeName} 
+        from ${ect.tableName} ect
+        left join ${ett.tableName} ett
+            on ett.${ett.classificationID} = ect.${ect.classificationID} 
+        where lower(ect.${ect.classificationName}) = lower(${classificationName});
+        `;
     }
 
-    getSpecificLeague = (classificationName, typeName, leagueName) => {
+    getTypesLeague = (classificationName, typeName) => {
         const ect = this.schema.eventClassificationTable;
         const ett = this.schema.eventTypeTable;
         const elt = this.schema.eventLeagueTable;
-        return this.#getEventsTemplate() +
-            `where lower(ect.${ect.classificationName}) = lower(${classificationName})
-                and lower(ett.${ett.typeName}) = lower(${typeName})
-                and lower(elt.${elt.leagueName}) = lower(${leagueName});`;
+        return `
+        select elt.${elt.leagueName}
+        from ${ect.tableName} ect
+        left join ${ett.tableName} ett
+            on ect.${ect.classificationID} = ett.${ett.classificationID}
+        left join ${elt.tableName} elt
+            on ett.${ett.typeID} = elt.${elt.typeID}
+        where lower(ect.${ect.classificationName}) = lower(${classificationName})
+            and lower(ett.${ett.typeName}) = lower(${typeName});
+        `
     }
 
     getSpecificEvent = (eventID) => {

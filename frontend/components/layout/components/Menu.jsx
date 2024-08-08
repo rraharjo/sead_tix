@@ -4,12 +4,25 @@ import { homes, pages, tours } from "@/data/menu";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import datasource from "@/source/url"
+import axios from "axios";
 import { FaChevronDown } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
 
 export default function Menu() {
   const pathname = usePathname();
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  const [musicCategories, setMusicCategories] = useState([]);
+  useEffect(() => {
+    const getMusicCategories = async () => {
+      console.log(apiAddress + "/classifications/concert");
+      const response = await axios.get(apiAddress + "/events/classifications/concert");
+      const data = response.data.return_value;
+      setMusicCategories(data);
+    };
+    getMusicCategories();
+  });
   return (
     <>
       <div className="xl:d-none ml-30">
@@ -28,13 +41,13 @@ export default function Menu() {
 
             <div className="desktopNavSubnav">
               <div className="desktopNavSubnav__content">
-                {homes.map((elm, i) => (
-                  <div key={i} className="desktopNavSubnav__item text-dark-1">
+                {musicCategories.map((elm) => (
+                  <div className="desktopNavSubnav__item text-dark-1">
                     <Link
-                      className={pathname == elm.href ? "activeMenu" : ""}
-                      href={elm.href}
+                      className={""}
+                      href=""
                     >
-                      {elm.title}
+                      {elm}
                     </Link>
                   </div>
                 ))}

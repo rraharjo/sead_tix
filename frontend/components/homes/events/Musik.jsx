@@ -15,18 +15,19 @@ import { FaArrowRight } from 'react-icons/fa';
 
 
 export default function Musik() {
-  const [musicEvents, setMusicEvents] = useState([]);
+  const [musicEvents, setMusic] = useState([]);
   const apiAddress = datasource.backendaddr + datasource.apiURL;
   useEffect(() => {
-    async function getMusicEvents() {
+    const getMusicEvents = async () => {
       const response = await axios.get(apiAddress + "/events/type/concert");
       const data = response.data.return_value;
-      setMusicEvents(data);
-    }
-    if (musicEvents.length == 0){
+      //console.log("Data:", data);
+      setMusic(data);
+    };
+    if (musicEvents.length == 0) {
       getMusicEvents();
     };
-  }, []);
+  });
   return (
     <section className="layout-pt-sm">
       <div className="container">
@@ -43,12 +44,12 @@ export default function Musik() {
         </div>
 
         <div className="relative pt-40 sm:pt-20">
-          <div
-            data-aos="fade-up"
-            data-aos-delay=""
-            className="overflow-hidden js-section-slider"
-          >
-            <div className="swiper-wrapper">
+          <div className="overflow-hidden js-section-slider">
+            <div
+              data-aos="fade-up"
+              data-aos-delay=""
+              className="swiper-wrapper"
+            >
               <Swiper
                 spaceBetween={30}
                 className="w-100"
@@ -72,10 +73,10 @@ export default function Musik() {
                   },
                 }}
               >
-                {musicEvents.map((music) => (
-                  <SwiperSlide key={music.event_id}>
+                {musicEvents.map((e) => (
+                  <SwiperSlide key={e.event_id}>
                     <Link
-                      href={`/event-single/${music.event_id}`}
+                      href={`/event-single/${e.event_id}`}
                       className="tourCard -type-1 d-block bg-white"
                     >
                       <div className="tourCard__header">
@@ -83,7 +84,7 @@ export default function Musik() {
                           <Image
                             width={421}
                             height={301}
-                            src={music.imageSrc}
+                            src={e.imageSrc}
                             alt="image"
                             className="img-ratio rounded-12"
                           />
@@ -97,21 +98,21 @@ export default function Musik() {
                       <div className="tourCard__content pt-10">
                         <div className="tourCard__location d-flex items-center text-13 text-light-2">
                           <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack /></i>
-                          {music.city_name}
+                          {e.city_name}
                         </div>
 
                         <h3 className="tourCard__title text-16 fw-500 mt-5">
-                          <span>{music.event_name}</span>
+                          <span>{e.event_name}</span>
                         </h3>
 
                         <div className="d-flex justify-between items-center border-1-top text-13 text-dark-1 pt-10 mt-10">
                           <div className="d-flex items-center">
                             <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt /></i>
-                            {music.event_date.substring(0, 10)}
+                            {e.event_date.substring(0, 10)}
                           </div>
 
                           <div>
-                            Mulai dari <span className="text-16 fw-500">Rp {music.ticket_price ? music.ticket_price : '-'}</span>
+                            Mulai dari <span className="text-16 fw-500">Rp {e.ticket_price ? e.ticket_price : '-'}</span>
                           </div>
                         </div>
                       </div>

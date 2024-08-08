@@ -21,7 +21,6 @@ export default function Olahraga() {
     const getSportsEvents = async () => {
       const response = await axios.get(apiAddress + "/events/type/sports");
       const data = response.data.return_value;
-      console.log("Data:", data);
       setSports(data);
     };
     if (sports.length == 0) {
