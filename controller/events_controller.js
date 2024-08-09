@@ -26,6 +26,18 @@ class EventsController extends Controller {
             }
             return placeholder;
         }
+        const filterCity = (filter, placeholder, element) => {
+            if (element.city_name.toLowerCase() === filter.toLowerCase()) {
+                placeholder.push(element);
+            }
+            return placeholder;
+        }
+        const filterState = (filter, placeholder, element) => {
+            if (element.state_name.toLowerCase() === filter.toLowerCase()) {
+                placeholder.push(element);
+            }
+            return placeholder;
+        }
         try {
             const queryReturn = await this.pool.query(
                 this.query.getAllEvents()
@@ -47,6 +59,18 @@ class EventsController extends Controller {
             if (filters.league) {
                 value = value.reduce(
                     filterLeague.bind(null, filters.league),
+                    []
+                )
+            }
+            if (filters.state) {
+                value = value.reduce(
+                    filterState.bind(null, filters.state),
+                    []
+                )
+            }
+            if (filters.city) {
+                value = value.reduce(
+                    filterCity.bind(null, filters.city),
                     []
                 )
             }

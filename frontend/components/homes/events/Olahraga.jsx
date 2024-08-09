@@ -19,7 +19,7 @@ export default function Olahraga() {
   const apiAddress = datasource.backendaddr + datasource.apiURL;
   useEffect(() => {
     const getSportsEvents = async () => {
-      const response = await axios.get(apiAddress + "/events/type/sports");
+      const response = await axios.get(apiAddress + "/events/id?classification=sports");
       const data = response.data.return_value;
       setSports(data);
     };

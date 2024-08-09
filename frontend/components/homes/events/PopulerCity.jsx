@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import datasource from "@/source/url"
-const ddlocations = ["Jakarta", "Jawa Tengah", "Bali"];
+const ddlocations = ["Jakarta", "Central Java", "Bali"];
 import { FaThumbtack } from 'react-icons/fa';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
@@ -18,7 +18,7 @@ export default function PopulerCity() {
   useEffect(() => {
     async function getEventsbyCity() {
       const location = currentLocation;
-      const response = await axios.get(apiAddress + `/events/location/${location}`);
+      const response = await axios.get(apiAddress + `/events/id?state=${location}`);
       const data = response.data.return_value;
       if (data) {
         setEventsByCity(data);
