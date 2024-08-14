@@ -633,12 +633,12 @@ export const destinations11 = [
 ];
 
 export const tagData = [
-  { icon: "icon-office", title: "City Tours" },
-  { icon: "icon-bank", title: "Cultural Tours" },
-  { icon: "icon-boat", title: "Day Cruises" },
-  { icon: "icon-bus", title: "Bus Tours" },
-  { icon: "icon-beach", title: "Beach Tours" },
-  { icon: "icon-menu-1", title: "Food Tours" },
+  { icon: "icon-headphone", title: "Musik" },
+  { icon: "icon-bank", title: "Olahraga" },
+  { icon: "icon-flag", title: "Pertunjukan" },
+  // { icon: "icon-bus", title: "Bus Tours" },
+  // { icon: "icon-beach", title: "Beach Tours" },
+  // { icon: "icon-menu-1", title: "Food Tours" },
 ];
 
 export const destinations12 = [

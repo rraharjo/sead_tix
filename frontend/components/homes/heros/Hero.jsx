@@ -137,12 +137,7 @@ export default function Hero() {
                   <div className="searchForm -type-9">
                     <div className="searchForm__form">
                       <div className="searchFormItem js-select-control">
-                        {/* <div className="searchFormItem__button"> */}
-                          {/* <div className="searchFormItem__icon size-50 rounded-12 border-1 flex-center">
-                            <i className="text-20 icon-search"></i>
-                          </div> */}
                           <div className="searchFormItem__content">
-                            {/* <h5>Search</h5> */}
                             <div className="js-select-control-chosen">
                               <input
                                 type="text"
@@ -153,7 +148,6 @@ export default function Hero() {
                               />
                             </div>
                           </div>
-                        {/* </div> */}
                       </div>
                       <div className="searchForm__button">
                         <button

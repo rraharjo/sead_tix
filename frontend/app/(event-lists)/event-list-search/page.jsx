@@ -1,8 +1,7 @@
 import Footer from "@/components/layout/footers/Footer";
 import Header from "@/components/layout/header/Header";
-import PageHeader from "@/components/tours/PageHeader";
-import TourList2 from "@/components/tours/TourList2";
-import TourTypes from "@/components/tours/TourTypes";
+import TourList3 from "@/components/tours/TourList3";
+import Hero from "@/components/tours/Hero";
 import React from "react";
 
 export const metadata = {
@@ -15,11 +14,8 @@ export default function page() {
     <>
       <main>
         <Header />
-        <PageHeader />
-        <div className="container mb-40">
-          <TourTypes />
-        </div>
-        <TourList2 />
+        <Hero />
+        <TourList3 />
         <Footer />
       </main>
     </>
