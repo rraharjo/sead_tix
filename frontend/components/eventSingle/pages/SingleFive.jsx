@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import axios from "axios";
+import datasource from "@/source/url"
+import React, { useState, useEffect } from "react";
 import TourSingleSidebar from "../TourSingleSidebar";
 import CommentBox from "../CommentBox";
 import Reviews from "../Reviews";
@@ -21,11 +23,11 @@ const tabButtons = [
   "Seat Map",
 ];
 
-export default function SingleFive({ tour }) {
+export default function SingleFive({ eventID }) {
   const [activeTab, setActiveTab] = useState("Deskripsi");
   return (
     <>
-      <Gallery4 tour={tour} />
+      <Gallery4 eventID={eventID} />
 
       <section className="layout-pt-md js-pin-container">
         <div className="container">

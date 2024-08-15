@@ -1,14 +1,10 @@
 "use client";
-
-import { homes, pages, tours } from "@/data/menu";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import datasource from "@/source/url"
 import axios from "axios";
 import { FaChevronDown } from 'react-icons/fa';
-import { FaChevronRight } from 'react-icons/fa';
 
 export default function Menu() {
   const pathname = usePathname();
@@ -17,25 +13,33 @@ export default function Menu() {
   const [sportsCategories, setSportsCategories] = useState([]);
   const [showsCategories, setShowsCategories] = useState([]);
   useEffect(() => {
-    const getMusicCategories = async () => {
-      const response = await axios.get(apiAddress + "/events/classifications/music");
-      const data = response.data.return_value;
-      setMusicCategories(data);
-    };
-    const getSportsCategories = async () => {
-      const response = await axios.get(apiAddress + "/events/classifications/sports");
-      const data = response.data.return_value;
-      setSportsCategories(data);
-    };
     const getShowsCategories = async () => {
       const response = await axios.get(apiAddress + "/events/classifications/show");
       const data = response.data.return_value;
       setShowsCategories(data);
     };
     getShowsCategories();
-    getSportsCategories();
+  }, []);
+
+  useEffect(() => {
+    const getMusicCategories = async () => {
+      const response = await axios.get(apiAddress + "/events/classifications/music");
+      const data = response.data.return_value;
+      setMusicCategories(data);
+      console.log(data);
+    };
     getMusicCategories();
-  });
+
+  }, []);
+
+  useEffect(() => {
+    const getSportsCategories = async () => {
+      const response = await axios.get(apiAddress + "/events/classifications/sports");
+      const data = response.data.return_value;
+      setSportsCategories(data);
+    };
+    getSportsCategories();
+  }, []);
   return (
     <>
       <div className="xl:d-none ml-30">

@@ -19,9 +19,8 @@ export default function Musik() {
   const apiAddress = datasource.backendaddr + datasource.apiURL;
   useEffect(() => {
     const getMusicEvents = async () => {
-      const response = await axios.get(apiAddress + "/events/id?classification=concert");
+      const response = await axios.get(apiAddress + "/events/id?classification=music");
       const data = response.data.return_value;
-      //console.log("Data:", data);
       setMusic(data);
     };
     if (musicEvents.length == 0) {
