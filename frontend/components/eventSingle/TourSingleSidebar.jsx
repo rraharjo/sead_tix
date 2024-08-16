@@ -1,37 +1,40 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Calender from "../common/dropdownSearch/Calender";
 import Image from "next/image";
 import { times } from "@/data/tourSingleContent";
+import axios from "axios";
+import datasource from "@/source/url"
 
-export default function TourSingleSidebar() {
-  const prices = {
-    adultPrice: 94,
-    youthPrice: 84,
-    childrenPrice: 20,
-    extraService: 40,
-    servicePerPerson: 40,
-  };
+export default function TourSingleSidebar({eventID}) {
+  const addNumber = (num) => {
+    numbers[num] += 1;
+  }
 
-  const [adultNumber, setAdultNumber] = useState(0);
-  const [youthNumber, setYouthNumber] = useState(0);
-  const [childrenNumber, setChildrenNumber] = useState(0);
-  const [isExtraService, setisExtraService] = useState(false);
-  const [isServicePerPerson, setIsServicePerPerson] = useState(false);
-  const [extraCharge, setExtraCharge] = useState(0);
+  const minNumber = (num) => {
+    if (numbers[num] <= 0){
+      numbers[num] = 0;
+      return;
+    }
+    numbers[num] -= 1;
+  }
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  const [refresher, setRefreshser] = useState(false);
+  const [numbers, setNumbers] = useState([]);
+  const [ticketTypes, setTicketTypes] = useState([]);
   useEffect(() => {
-    setExtraCharge(0);
-    if (isExtraService) {
-      setExtraCharge((pre) => pre + prices.extraService);
-    }
-    if (isServicePerPerson) {
-      setExtraCharge((pre) => pre + prices.servicePerPerson);
-    }
-  }, [isExtraService, isServicePerPerson, setExtraCharge]);
-
-  const [selectedTime, setSelectedTime] = useState("");
-  const [activeTimeDD, setActiveTimeDD] = useState(false);
+    const getShowsCategories = async () => {
+      const response = await axios.get(apiAddress + `/ticket/types/${eventID}`);
+      const data = response.data.return_value;
+      setTicketTypes(data);
+    };
+    getShowsCategories();
+  }, []);
+  useEffect(() => {
+    const numOfTicket = ticketTypes?.length;
+    const placehold = new Array(numOfTicket).fill(0);
+    setNumbers(placehold);
+  }, [ticketTypes]);
 
   return (
     <div className="tourSingleSidebar">
@@ -115,107 +118,51 @@ export default function TourSingleSidebar() {
       </div> */}
 
       <h5 className="text-18 fw-500 mb-20 mt-20">Kategori</h5>
-
-      <div>
+      {ticketTypes?.map((e, ind) => {
+        console.log(ind);
+        return<div className="mt-15">
         <div className="d-flex items-center justify-between">
           <div className="text-14">
-            Adult (18+ years){" "}
+            {e.ticket_type}{" "}
             <span className="fw-500">
-              ${(prices.adultPrice).toFixed(2)}
+              ${e.ticket_price}
             </span>
           </div>
 
           <div className="d-flex items-center js-counter">
             <button
-              onClick={() => setAdultNumber((pre) => (pre > 0 ? pre - 1 : pre))}
+              onClick={() => {
+                minNumber(ind);
+                setRefreshser((pre) => !pre);
+              }}
               className="button size-30 border-1 rounded-full js-down"
             >
               <i className="icon-minus text-10"></i>
             </button>
 
             <div className="flex-center ml-10 mr-10">
-              <div className="text-14 size-20 js-count">{adultNumber}</div>
+              <div className="text-14 size-20 js-count">{numbers[ind]}</div>
             </div>
 
             <button
-              onClick={() => setAdultNumber((pre) => pre + 1)}
+              onClick={() => {
+                addNumber(ind);
+                setRefreshser((pre) => !pre);
+              }}
               className="button size-30 border-1 rounded-full js-up"
             >
               <i className="icon-plus text-10"></i>
             </button>
           </div>
         </div>
-      </div>
-
-      <div className="mt-15">
-        <div className="d-flex items-center justify-between">
-          <div className="text-14">
-            Youth (13-17 years){" "}
-            <span className="fw-500">
-              ${(prices.youthPrice).toFixed(2)}
-            </span>
-          </div>
-
-          <div className="d-flex items-center js-counter">
-            <button
-              onClick={() => setYouthNumber((pre) => (pre > 0 ? pre - 1 : pre))}
-              className="button size-30 border-1 rounded-full js-down"
-            >
-              <i className="icon-minus text-10"></i>
-            </button>
-
-            <div className="flex-center ml-10 mr-10">
-              <div className="text-14 size-20 js-count">{youthNumber}</div>
-            </div>
-
-            <button
-              onClick={() => setYouthNumber((pre) => pre + 1)}
-              className="button size-30 border-1 rounded-full js-up"
-            >
-              <i className="icon-plus text-10"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-15">
-        <div className="d-flex items-center justify-between">
-          <div className="text-14">
-            Children (0-12 years){" "}
-            <span className="fw-500">
-              ${(prices.childrenPrice).toFixed(2)}
-            </span>
-          </div>
-
-          <div className="d-flex items-center js-counter">
-            <button
-              onClick={() =>
-                setChildrenNumber((pre) => (pre > 0 ? pre - 1 : pre))
-              }
-              className="button size-30 border-1 rounded-full js-down"
-            >
-              <i className="icon-minus text-10"></i>
-            </button>
-
-            <div className="flex-center ml-10 mr-10">
-              <div className="text-14 size-20 js-count">{childrenNumber}</div>
-            </div>
-
-            <button
-              onClick={() => setChildrenNumber((pre) => pre + 1)}
-              className="button size-30 border-1 rounded-full js-up"
-            >
-              <i className="icon-plus text-10"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      </div>;
+      })}
 
       {/* <h5 className="text-18 fw-500 mb-20 mt-20">Add Extra</h5> */}
       <div className="line mt-20 mb-20"></div>
 
 
-      <div className="d-flex items-center justify-between">
+      {/*<div className="d-flex items-center justify-between">
         <div className="d-flex items-center">
           <div className="form-checkbox">
             <input
@@ -237,8 +184,8 @@ export default function TourSingleSidebar() {
           <div className="ml-10 text-14">Saya telah membaca dan setuju dengan peraturan acara</div>
         </div>
 
-        {/* <div className="text-14">$40</div> */}
-      </div>
+        <div className="text-14">$40</div> 
+      </div>*/}
 
       {/* <div className="d-flex justify-between mt-20">
         <div className="d-flex">
@@ -278,12 +225,9 @@ export default function TourSingleSidebar() {
         <div className="text-18 fw-500">Total:</div>
         <div className="text-18 fw-500">
           $
-          {(
-            prices.adultPrice * adultNumber +
-            prices.youthPrice * youthNumber +
-            prices.childrenPrice * childrenNumber +
-            extraCharge * 1
-          ).toFixed(2)}
+          {numbers && ticketTypes ? numbers.reduce((prev, cur, ind) => {
+            return prev + (cur * ticketTypes[ind].ticket_price);
+          }, 0).toFixed(2) : (0).toFixed(2)}
         </div>
       </div>
 

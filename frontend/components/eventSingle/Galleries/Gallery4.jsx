@@ -158,14 +158,14 @@ export default function Gallery4({ eventID }) {
                   <div className="col-auto">
                     <div className="d-flex items-center text-white">
                       <i className="icon-pin text-16 mr-5"></i>
-                      {theEvent.venue_name}
+                      {theEvent.city_name}, {theEvent.state_name}
                     </div>
                   </div>
 
                   <div className="col-auto">
                     <div className="d-flex items-center text-white">
                       <i className="icon-reservation text-16 mr-5"></i>
-                      what??
+                      {theEvent.venue_name}
                     </div>
                   </div>
                 </div>

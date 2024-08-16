@@ -193,7 +193,7 @@ export default function SingleFive({ eventID }) {
                   style={{ position: "sticky", top: "10px" }}
                   className="-top-320"
                 >
-                  <TourSingleSidebar />
+                  <TourSingleSidebar eventID={eventID}/>
                 </div>
               </div>
             </div>
