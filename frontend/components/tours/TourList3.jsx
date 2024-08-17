@@ -3,7 +3,6 @@
 import datasource from "@/source/url"
 import axios from "axios";
 import { filter } from "@/data/tourFilteringOptions";
-import { tourData } from "@/data/tours";
 import Calender from "../common/dropdownSearch/Calender";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
