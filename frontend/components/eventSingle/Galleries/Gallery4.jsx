@@ -1,7 +1,8 @@
 "use client";
 
-import Stars from "@/components/common/Stars";
-import React from "react";
+import axios from "axios";
+import datasource from "@/source/url"
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
@@ -10,7 +11,17 @@ const images = [
   "/img/tourSingle/2/1.png",
   "/img/tourSingle/2/3.png",
 ];
-export default function Gallery4({ tour }) {
+export default function Gallery4({ eventID }) {
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  const [theEvent, setTheEvent] = useState([]);
+  useEffect(() => {
+    const getTheEvent = async () => {
+      const response = await axios.get(apiAddress + `/events/id/${eventID}`);
+      const data = response.data.return_value[0];
+      setTheEvent(data);
+    };
+    getTheEvent();
+  }, []);
   return (
     <section className="tourSingleHero5">
       <div className="tourSingleHero5__image">
@@ -127,10 +138,9 @@ export default function Gallery4({ tour }) {
             </div>
 
             <h2 className="text-40 sm:text-30 lh-14 text-white mt-20">
-              {tour?.title.split(" ").slice(0, 7).join(" ")}
-
+              {theEvent.event_name}
               <br />
-              {tour?.title.split(" ").slice(7).join(" ")}
+              {theEvent.event_name}
             </h2>
 
             <div className="row y-gap-20 justify-between items-center pt-20">
@@ -148,14 +158,14 @@ export default function Gallery4({ tour }) {
                   <div className="col-auto">
                     <div className="d-flex items-center text-white">
                       <i className="icon-pin text-16 mr-5"></i>
-                      {tour?.location}
+                      {theEvent.city_name}, {theEvent.state_name}
                     </div>
                   </div>
 
                   <div className="col-auto">
                     <div className="d-flex items-center text-white">
                       <i className="icon-reservation text-16 mr-5"></i>
-                      SMA Kolese Loyola
+                      {theEvent.venue_name}
                     </div>
                   </div>
                 </div>

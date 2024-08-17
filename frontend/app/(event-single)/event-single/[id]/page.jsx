@@ -1,3 +1,4 @@
+
 import Footer from "@/components/layout/footers/Footer";
 import Header from "@/components/layout/header/Header";
 import PageHeader from "@/components/eventSingle/PageHeader";
@@ -14,15 +15,13 @@ export const metadata = {
 
 export default function page({ params }) {
   const id = params.id;
-  const tour = allTour.find((item) => item.id == id) || allTour[0];
-
   return (
     <>
       <main>
         <Header />
         <PageHeader />
 
-        <SingleFive tour={tour} />
+        <SingleFive eventID={id} />
         {/* <TourSlider /> */}
         <PageHeader />
         <Footer />

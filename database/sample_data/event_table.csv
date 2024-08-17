@@ -1,0 +1,8 @@
+﻿event_id,event_league_id,event_name,event_date,event_description,event_popularity,max_capacity,venue_id
+1,11,Chicago Bulls vs GSW,5/10/2001,random,0,100,2
+2,16,Croatia Vs Italy,1/12/2000,random,0,200,2
+3,4,Popda berenang Jateng,3/31/2000,asdfasdfa,0,300,5
+4,5,Classmeeting SMA,5/10/2001,adsfafds,0,400,4
+5,17,Secret V Navi,1/12/2000,fasdf,0,500,2
+6,2,Mawang on the road,10/10/2002,ds,0,100,5
+7,2,Ignatius Tour,10/8/2003,,0,50,1

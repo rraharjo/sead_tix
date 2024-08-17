@@ -1,0 +1,17 @@
+﻿ticket_id,ticket_type,event_id,customer_id
+1,cheap,7,1
+2,cheap,7,
+3,cheap,7,
+4,cheap,7,
+5,cheap,7,
+6,cheap,7,
+7,cheap,7,
+8,cheap,7,
+9,expensive,7,4
+10,expensive,7,3
+11,expensive,7,
+12,expensive,7,
+13,expensive,7,
+14,expensive,7,
+15,mid,1,
+16,cheap,2,

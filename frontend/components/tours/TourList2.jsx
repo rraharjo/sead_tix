@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import datasource from "@/source/url"
+import axios from "axios";
 import Sidebar from "./Sidebar";
 import { speedFeatures } from "@/data/tourFilteringOptions";
 import { tourDataThree, tourDataTwo } from "@/data/tours";
@@ -10,9 +12,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function TourList2() {
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
   const [sortOption, setSortOption] = useState("");
   const [ddActives, setDdActives] = useState(false);
   const [sidebarActive, setSidebarActive] = useState(false);
+  const [allEvents, setAllEvents] = useState([]);
+  useEffect(() => {
+    const getAllEvents = async () => {
+      const response = await axios.get(apiAddress + "/events/id");
+      const data = response.data.return_value;
+      setAllEvents(data);
+    };
+    getAllEvents();
+  }, []);
+  
   const dropDownContainer = useRef();
   useEffect(() => {
     const handleClick = (event) => {
@@ -109,10 +122,10 @@ export default function TourList2() {
             </div>
 
             <div className="row y-gap-30 pt-30">
-              {tourDataThree.map((elm, i) => (
-                <div key={i} className="col-lg-4 col-sm-6">
+              {allEvents.map((ev) => (
+                <div key={ev.event_id} className="col-lg-4 col-sm-6">
                   <Link
-                    href={`/tour-single-1/${elm.id}`}
+                    href={`/tour-single-1/${ev.event_id}`}
                     className="tourCard -type-1 py-10 px-10 border-1 rounded-12  -hover-shadow"
                   >
                     <div className="tourCard__header">
@@ -120,7 +133,7 @@ export default function TourList2() {
                         <Image
                           width={421}
                           height={301}
-                          src={elm.imageSrc}
+                          src={ev.imageSrc ? ev.imageSrc : ""}
                           alt="image"
                           className="img-ratio rounded-12"
                         />
@@ -134,32 +147,32 @@ export default function TourList2() {
                     <div className="tourCard__content px-10 pt-10">
                       <div className="tourCard__location d-flex items-center text-13 text-light-2">
                         <i className="icon-pin d-flex text-16 text-light-2 mr-5"></i>
-                        {elm.location}
+                        {ev.city_name}
                       </div>
 
                       <h3 className="tourCard__title text-16 fw-500 mt-5">
-                        <span>{elm.title}</span>
+                        <span>{ev.event_name}</span>
                       </h3>
 
                       <div className="tourCard__rating d-flex items-center text-13 mt-5">
                         <div className="d-flex x-gap-5">
-                          <Stars star={elm.rating} />
+                          <Stars star={ev.event_popularity} />
                         </div>
 
                         <span className="text-dark-1 ml-10">
-                          {elm.rating} ({elm.ratingCount})
+                          {ev.event_popularity} ({ev.event_popularity})
                         </span>
                       </div>
 
                       <div className="d-flex justify-between items-center border-1-top text-13 text-dark-1 pt-10 mt-10">
                         <div className="d-flex items-center">
                           <i className="icon-clock text-16 mr-5"></i>
-                          {elm.duration}
+                          {ev.event_date}
                         </div>
 
                         <div>
                           From{" "}
-                          <span className="text-16 fw-500">${elm.price}</span>
+                          <span className="text-16 fw-500">${ev.ticket_price}</span>
                         </div>
                       </div>
                     </div>
