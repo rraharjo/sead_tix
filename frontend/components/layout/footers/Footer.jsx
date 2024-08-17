@@ -17,7 +17,7 @@ export default function Footer() {
                     328 Queensberry Street, North Melbourne VIC3051, Australia.
                   </a>
                   <a className="d-block" href="#">
-                    hi@viatours.com
+                    hi@seadtix.com
                   </a>
                 </div> */}
                 {/* <div className="col-auto"> */}

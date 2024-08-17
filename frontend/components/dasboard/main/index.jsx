@@ -22,8 +22,7 @@ export default function DBMain() {
           <Header setSideBarOpen={setSideBarOpen} />
 
           <div className="dashboard__content_content">
-            <h1 className="text-30">Dashboard</h1>
-            <p className="">Lorem ipsum dolor sit amet, consectetur.</p>
+            <h1 className="text-30">Main Dashboard</h1>
 
             <States />
 
@@ -33,13 +32,13 @@ export default function DBMain() {
               <div className="col-xl-4 col-lg-12 col-md-6">
                 <div className="px-30 py-25 rounded-12 bg-white shadow-2">
                   <div className="d-flex items-center justify-between">
-                    <div className="text-18 fw-500">Recent Activities</div>
+                    <div className="text-18 fw-500">Recent Bookings</div>
                   </div>
 
                   <Activities />
 
                   <div className="pt-40">
-                    <button className="button -md -outline-accent-1 col-12 text-accent-1">
+                    <button className="button -accent-3 -md col-12">
                       View More
                       <i className="icon-arrow-top-right text-16 ml-10"></i>
                     </button>
@@ -49,7 +48,7 @@ export default function DBMain() {
             </div>
 
             <div className="text-center pt-30">
-              © Copyright Viatours {new Date().getFullYear()}
+              © Copyright Seadtix {new Date().getFullYear()}
             </div>
           </div>
         </div>

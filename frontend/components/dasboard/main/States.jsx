@@ -18,9 +18,9 @@ export default function States() {
               </div>
 
               <div className="col-auto">
-                <div className="size-80 flex-center bg-accent-1-05 rounded-full">
+                {/* <div className="size-80 flex-center bg-accent-1-05 rounded-full">
                   <i className={`text-30 ${elm.iconClass}`}></i>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
