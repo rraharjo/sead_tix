@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaChevronDown } from 'react-icons/fa';
 
 
-export default function Hero() {
+export default function Hero({eventType}) {
   const [ddActive, setDdActive] = useState(false);
   const [currentLocation, setCurrentLocation] = useState("Jakarta");
 
@@ -32,7 +32,7 @@ export default function Hero() {
           <div className="row justify-center">
             <div className="col-12">
               <div className="pageHeader__content">
-                <h1 className="pageHeader__title">Sepak Bola</h1>
+                <h1 className="pageHeader__title">{eventType}</h1>
 
                 <p className="pageHeader__text">
                   A tropical paradise made for animal lovers replete with monkey

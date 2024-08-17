@@ -1,6 +1,9 @@
 "use client";
 
 import React from "react";
+import { useEffect, useState } from "react";
+import datasource from "@/source/url"
+import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { tourData } from "@/data/tours";
@@ -12,6 +15,18 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { FaArrowRight } from 'react-icons/fa';
 
 export default function Pertunjukan() {
+  const [shows, setShow] = useState([]);
+  const apiAddress = datasource.backendaddr + datasource.apiURL;
+  useEffect(() => {
+    const getShowEvents = async () => {
+      const response = await axios.get(apiAddress + "/events/id?classification=show");
+      const data = response.data.return_value;
+      setShow(data);
+    };
+    if (shows.length == 0) {
+      getShowEvents();
+    };
+  });
   return (
     <section className="layout-pt-sm">
       <div className="container">
@@ -57,8 +72,8 @@ export default function Pertunjukan() {
                   },
                 }}
               >
-                {tourData.map((elm, i) => (
-                  <SwiperSlide key={i}>
+                {shows.map((elm) => (
+                  <SwiperSlide key={elm.event_id}>
                     <Link
                       href={`/event-single/${elm.id}`}
                       className="tourCard -type-1 d-block bg-white"
@@ -68,7 +83,7 @@ export default function Pertunjukan() {
                           <Image
                             width={421}
                             height={301}
-                            src={elm.imageSrc}
+                            src=""
                             alt="image"
                             className="img-ratio rounded-12"
                           />
@@ -78,21 +93,21 @@ export default function Pertunjukan() {
                       <div className="tourCard__content pt-10">
                         <div className="tourCard__location d-flex items-center text-13 text-light-2">
                           <i className="d-flex text-16 text-light-2 mr-5"><FaThumbtack/></i>
-                          {elm.location}
+                          {elm.venue_name}
                         </div>
 
                         <h3 className="tourCard__title text-16 fw-500 mt-5">
-                          <span>{elm.title}</span>
+                          <span>{elm.event_name}</span>
                         </h3>
 
                         <div className="d-flex justify-between items-center border-1-top text-13 text-dark-1 pt-10 mt-10">
                           <div className="d-flex items-center">
                             <i className="text-16 mr-5 mb-5"><FaRegCalendarAlt/></i>
-                            {elm.duration}
+                            {elm.event_date}
                           </div>
 
                           <div>
-                            Mulai dari <span className="text-16 fw-500">Rp {elm.price}</span>
+                            Mulai dari <span className="text-16 fw-500">Rp {elm.ticket_price}</span>
                           </div>
                         </div>
                       </div>

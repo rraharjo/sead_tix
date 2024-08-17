@@ -58,16 +58,18 @@ export default function Menu() {
 
             <div className="desktopNavSubnav">
               <div className="desktopNavSubnav__content">
-                {musicCategories.map((elm) => (
+                {musicCategories.map((elm) => {
+                  const destinationURL = `/event-list-category?classification=music&type=${elm}`
+                  return (
                   <div className="desktopNavSubnav__item text-dark-1">
                     <Link
                       className={""}
-                      href=""
+                      href={destinationURL}
                     >
                       {elm}
                     </Link>
                   </div>
-                ))}
+                )})}
               </div>
             </div>
           </div>
@@ -86,16 +88,18 @@ export default function Menu() {
 
             <div className="desktopNavSubnav">
               <div className="desktopNavSubnav__content">
-                {sportsCategories.map((elm) => (
+                {sportsCategories.map((elm) => {
+                  const destinationURL = `/event-list-category?classification=sports&type=${elm}`
+                  return (
                   <div className="desktopNavSubnav__item text-dark-1">
                     <Link
                       className={""}
-                      href=""
+                      href={destinationURL}
                     >
                       {elm}
                     </Link>
                   </div>
-                ))}
+                )})}
               </div>
             </div>
           </div>
@@ -114,16 +118,18 @@ export default function Menu() {
 
             <div className="desktopNavSubnav">
               <div className="desktopNavSubnav__content">
-                {showsCategories.map((elm) => (
+                {showsCategories.map((elm) => {
+                  const destinationURL = `/event-list-category?classification=show&type=${elm}`
+                  return (
                   <div className="desktopNavSubnav__item text-dark-1">
                     <Link
                       className={""}
-                      href=""
+                      href={destinationURL}
                     >
                       {elm}
                     </Link>
                   </div>
-                ))}
+                )})}
               </div>
             </div>
           </div>
