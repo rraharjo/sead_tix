@@ -1,13 +1,14 @@
 "use client";
+import datasource from "@/source/url"
+import axios from "axios";
 import Image from "next/image";
-const ddlocations = ["Jakarta", "Solo", "Jogja"];
+
 import React, { useState, useEffect, useRef } from "react";
-import { FaChevronDown } from 'react-icons/fa';
+
 
 
 export default function Hero({eventType}) {
-  const [ddActive, setDdActive] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState("Jakarta");
+  
 
   return (
     <>
@@ -60,43 +61,7 @@ export default function Hero({eventType}) {
         ))}
       </div> */}
 
-      <div className="container mt-20 mb-20">
-        <h2 className="text-30 md:text-24">
-          Semua event Sepak Bola di 
-          <div
-            className={`dropdown -type-list js-dropdown js-form-dd ${
-              ddActive ? "is-active" : ""
-            } `}
-            data-main-value="Jakarta"
-          >
-            <div
-              className="dropdown__button text-accent-1 js-button"
-              onClick={() => setDdActive((pre) => !pre)}
-            >
-              <span style={{ marginLeft: "8px" }} className="js-title">
-                {" "}
-                {currentLocation}
-              </span>
-              <i className="ml-5"><FaChevronDown size="18"/> </i>
-            </div>
-
-            <div className="dropdown__menu text-16 fw-500 border-1 js-menu-items">
-              {ddlocations.map((elm, i) => (
-                <div
-                  onClick={() => {
-                    setCurrentLocation(elm);
-                    setDdActive(false);
-                  }}
-                  key={i}
-                  className="dropdown__item"
-                >
-                  {elm}
-                </div>
-              ))}
-            </div>
-          </div>
-        </h2>
-      </div>
+      
     </>
   );
 }

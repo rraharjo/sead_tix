@@ -13,7 +13,6 @@ import { useSearchParams } from "next/navigation";
 
 export default function page() {
   const searchParams = useSearchParams();
-  console.log(searchParams);
   return (
     <>
       <main>
