@@ -1,11 +1,20 @@
-﻿city_id,city_name,state_id
-1,NAD,1
-2,Malang,4
-3,Klaten,10
-4,Denpasar,9
-5,Surabaya,4
-6,Pekalongan,10
-7,Semarang,10
-8,Samarinda,6
-9,Magelang,10
-10,Jakarta,11
+﻿city_name, state_id
+'Jakarta', 10
+'Yogyakarta', 13
+'Denpasar', 16
+'Solo', 12
+'Semarang', 12
+'Klaten', 12
+'Pontianak', 19
+'Samarinda', 21
+'Kupang', 18
+'Medan', 1
+'Padang', 2
+'Palembang', 5
+'Surabaya', 14
+'Manado', 23
+'Manokwari', 31
+'Bandung', 11
+'Mamuju', 28
+'Sofifi', 30
+'Makassar', 25

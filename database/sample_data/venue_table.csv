@@ -1,6 +1,6 @@
-﻿venue_id,venue_name,max_capacity,venue_address,city_id
-1,Tri Lomba Juang,,,7
-2,Gelora Bung Karno,,,10
-3,Monas,,,10
-4,SMA Kolese Loyola,,Jl. Karanganyar 37,7
-5,Kuta beach,,,4
+﻿venue_name,max_capacity,venue_address,city_id
+'Tri Lomba Juang',,,5
+'Gelora Bung Karno',,,8
+'Monas',,,8
+'SMA Kolese Loyola',,'Jl. Karanganyar 37',5
+'Kuta beach',,,14
