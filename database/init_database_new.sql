@@ -1,13 +1,26 @@
 --ONLY RUN CREATE DATABASE ONCE
-create database sead_tix;
+--create database sead_tix;
 --------------------------------------------------------------------------------------------------------------------------------
+
+delete from ticket_table;
+delete from ticket_price;
+delete from customer_table;
+delete from performer_event_relation;
+delete from performer_table;
+delete from event_rules_table;
+delete from event_table;
+delete from event_league_table;
+delete from event_type_table;
+delete from event_classification_table;
+delete from venue_table;
+delete from city_table;
+delete from state_table;
 
 drop table performer_event_relation;
 drop table performer_table;
 drop table ticket_table;
 drop table ticket_price;
 drop table customer_table;
-drop table all_event_table;
 drop table event_rules_table;
 drop table event_table;
 drop table venue_table;
@@ -71,7 +84,7 @@ alter table event_league_table
         references event_type_table (event_type_id);
 
 create table performer_table(
-    performer_id    int             primary key,
+    performer_id    serial             primary key,
     performer_name  varchar(255)    not null
 );
 
@@ -153,48 +166,3 @@ create table event_rules_table (
 alter table event_rules_table 
     add constraint fk_rules_event_table foreign key (event_id)
         references event_table (event_id);
-
-
-delete from ticket_table;
-delete from ticket_price;
-delete from customer_table;
-delete from performer_event_relation;
-delete from performer_table;
-delete from event_rules_table;
-delete from event_table;
-delete from event_league_table;
-delete from event_type_table;
-delete from event_classification_table;
-delete from venue_table;
-delete from city_table;
-delete from state_table;
-
-\copy state_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/states_table.csv' delimiter ',' csv header;
-\copy city_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/city_table.csv' delimiter ',' csv header;
-\copy venue_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/venue_table.csv' delimiter ',' csv header;
-\copy event_classification_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/event_classification.csv' delimiter ',' csv header;
-\copy event_type_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/event_type.csv' delimiter ',' csv header;
-\copy event_league_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/event_league.csv' delimiter ',' csv header;
-\copy event_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/event_table.csv' delimiter ',' csv header;
-\copy performer_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/performer_table.csv' delimiter ',' csv header;
-\copy performer_event_relation from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/performer_event_relation.csv' delimiter ',' csv header;
-\copy customer_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/customer.csv' delimiter ',' csv header;
-\copy ticket_price from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/ticket_price.csv' delimiter ',' csv header;
-\copy ticket_table from 'C:/Users/rahar/Documents/Assignments/Tutorial/Node/Ticket/database/sample_data/ticket.csv' delimiter ',' csv header;
-
-
-
---Test commands
---1. Events that happen in Surabaya
-select et.event_id, et.event_name, vt.venue_id, vt.city_id, ct.city_name
-from event_table et 
-left join venue_table vt
-    on vt.venue_id = et.venue_id
-left join city_table ct 
-    on ct.city_id = vt.city_id
-where ct.city_name = 'Jakarta';
-
-select * from all_event_table ae
-left join event_table se
-on ae.event_id = se.event_id 
-    and ae.event_league_id = se.event_league_id;
