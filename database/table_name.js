@@ -10,7 +10,8 @@ const table_names = {
     "state": "state_table",
     "ticket_price": "ticket_price",
     "ticket": "ticket_table",
-    "venue": "venue_table"
+    "venue": "venue_table",
+    "rules": "event_rules_table"
 };
 
 export default table_names;

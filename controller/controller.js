@@ -1,5 +1,5 @@
 import Query from "../queries/query.js";
-import pool from "../database/db.js";
+import {awsPool as pool} from "../database/db.js";
 
 class Controller {
     constructor(query) {

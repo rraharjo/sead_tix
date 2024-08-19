@@ -1,4 +1,4 @@
-event_classification_id,event_classification_name
-1,sports
-2,concert
-3,show
+event_classification_name
+'sports'
+'music'
+'show'

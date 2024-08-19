@@ -1,18 +1,18 @@
-﻿event_league_id,event_type_id,event_league_name
-1,1,Basketball_none
-2,2,Singing_none
-3,3,Dancing_none
-4,4,Swim_none
-5,5,Soccer_none
-6,6,Football_none
-7,7,Esport_none
-8,8,Cricket_none
-9,5,Premier
-10,5,FIFA world cup
-11,1,NBA
-12,1,WNBA
-13,5,Bundesliga
-14,6,NFL
-15,6,AFL
-16,5,EURO cup
-17,7,TI
+﻿event_type_id,event_league_name
+1,'Basketball_none'
+2,'Singing_none'
+3,'Dancing_none'
+4,'Swim_none'
+5,'Soccer_none'
+6,'Football_none'
+7,'Esport_none'
+8,'Cricket_none'
+5,'Premier'
+5,'FIFA world cup'
+1,'NBA'
+1,'WNBA'
+4,'Bundesliga'
+6,'NFL'
+6,'AFL'
+5,'EURO Cup'
+7,'TI'

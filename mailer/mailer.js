@@ -1,5 +1,5 @@
 import mailer from "nodemailer";
-import password from "../pass/pass.js";
+import {password} from "../.env/pass.js";
 
 class Mailer {
     constructor() {

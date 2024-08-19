@@ -10,6 +10,7 @@ import StateTable from "./tables/state_table.js";
 import TicketPrice from "./tables/ticket_price.js";
 import TicketTable from "./tables/ticket_table.js";
 import VenueTable from "./tables/venue_table.js";
+import EventRulesTable from "./tables/event_rules_table.js";
 
 class Schema{
     /** @type {Schema} */
@@ -37,6 +38,7 @@ class Schema{
         this.ticketPrice = new TicketPrice();
         this.ticketTable = new TicketTable();
         this.venueTable = new VenueTable();
+        this.eventRulesTable = new EventRulesTable();
     }
 }
 

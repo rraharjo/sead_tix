@@ -1,12 +1,37 @@
-﻿state_id,state_name
-1,Aceh
-2,Banten
-3,Central Kalimantan
-4,East Java
-5,Central Papua
-6,East Kalimantan
-7,Central Sulawesi
-8,East Nusa Tenggara
-9,Bali
-10,Central Java
-11,Jakarta
+﻿state_name
+'North Sumatra'
+'West Sumatra'
+'Riau'
+'Jambi'
+'South Sumatra'
+'Bengkulu'
+'Lampung'
+'Bangka-Belitung Islands'
+'Riau Islands'
+'Jakarta'
+'West Java'
+'Central Java'
+'Yogyakarta'
+'East Java'
+'Banten'
+'Bali'
+'West Nusa Tenggara'
+'East Nusa Tenggara'
+'West Kalimantan'
+'South Kalimantan'
+'East Kalimantan'
+'North Kalimantan'
+'North Sulawesi'
+'Central Sulawesi'
+'South Sulawesi'
+'Southeast Sulawesi'
+'Gorontalo'
+'West Sulawesi'
+'Maluku'
+'North Maluku'
+'West Papua'
+'Southwest Papua'
+'Papua'
+'South Papua'
+'Central Papua'
+'Highland Papua'
