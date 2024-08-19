@@ -8,6 +8,7 @@ drop table ticket_table;
 drop table ticket_price;
 drop table customer_table;
 drop table all_event_table;
+drop table event_rules_table;
 drop table event_table;
 drop table venue_table;
 drop table city_table;
@@ -142,12 +143,24 @@ alter table ticket_table
     add constraint fk_ck_price_ticket_table foreign key (event_id, ticket_type)
         references ticket_price (event_id, ticket_type);
 
+create table event_rules_table (
+    rule_id         serial              primary key,
+    event_id        int,
+    rules           varchar(255),
+    allowed         boolean             not null
+);
+
+alter table event_rules_table 
+    add constraint fk_rules_event_table foreign key (event_id)
+        references event_table (event_id);
+
 
 delete from ticket_table;
 delete from ticket_price;
 delete from customer_table;
 delete from performer_event_relation;
 delete from performer_table;
+delete from event_rules_table;
 delete from event_table;
 delete from event_league_table;
 delete from event_type_table;
