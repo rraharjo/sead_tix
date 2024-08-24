@@ -1,6 +1,5 @@
 import pg from 'pg';
-import {password} from "../.env/pass.js";
-import { awsdb } from '../.env/pass.js';
+import { awsdb, password } from '../.env/pass.js';
 
 const localPool = new pg.Pool(
     {
@@ -23,4 +22,4 @@ const awsPool = new pg.Pool(
 );
 
 
-export {localPool, awsPool};
+export { localPool, awsPool };

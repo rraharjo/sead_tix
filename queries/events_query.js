@@ -1,4 +1,5 @@
 import EventTypeTable from "../database/tables/event_type_table.js";
+import PerformerEventRelation from "../database/tables/performer_event_relation.js";
 import TicketPrice from "../database/tables/ticket_price.js";
 import Query from "./query.js";
 
@@ -28,7 +29,7 @@ class EventQuery extends Query{
             st.${stateTable.stateName},
             ct.${cityTable.cityName},
             vt.${venue.venueName},
-            pt.${performerTable.performerName},
+            performers.${performerTable.performerName},
             temp.${ticketPrice.ticketPrice}
         from ${eventTable.tableName} et
         left join ${eventLeague.tableName} elt
@@ -43,10 +44,14 @@ class EventQuery extends Query{
             on ct.${cityTable.cityID} = vt.${venue.cityID}
         left join ${stateTable.tableName} st
             on st.${stateTable.stateID} = ct.${cityTable.stateID}
-        left join ${performerEventRelation.tableName} per
-            on et.${eventTable.eventID} = per.${performerEventRelation.eventID}
-        left join ${performerTable.tableName} pt
+        left join (
+            select per.${performerEventRelation.eventID}, string_agg(pt.${performerTable.performerName}, ',') as ${performerTable.performerName}
+            from ${performerEventRelation.tableName} per
+            left join ${performerTable.tableName} pt
             on per.${performerEventRelation.performerID} = pt.${performerTable.performerID}
+            group by per.${performerEventRelation.eventID}
+        ) performers
+            on et.${eventTable.eventID} = performers.${performerEventRelation.eventID}
         left join (
             select ${ticketPrice.eventID}, min(${ticketPrice.ticketPrice}) as ${ticketPrice.ticketPrice}
             from ${ticketPrice.tableName}

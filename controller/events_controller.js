@@ -38,6 +38,12 @@ class EventsController extends Controller {
             }
             return placeholder;
         }
+        const arrayingPerformer = (element) => {
+            if (element.performer_name){
+                element.performer_name = element.performer_name.split(',');
+            }
+            return element;
+        }
         try {
             const queryReturn = await this.pool.query(
                 this.query.getAllEvents()
@@ -74,7 +80,10 @@ class EventsController extends Controller {
                     []
                 )
             }
+            value = value.map(arrayingPerformer);
+            //console.log(value);
             if (value) {
+                //console.log(value);
                 this.successfulResponse(value, res);
             }
             else {
