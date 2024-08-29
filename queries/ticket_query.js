@@ -5,14 +5,14 @@ class TicketQuery extends Query{
         const eventTable = this.schema.eventTable;
         const ticketTable = this.schema.ticketTable;
         const ticketPrice = this.schema.ticketPrice;
-        const customerTable = this.schema.customerTable;
+        const bookingTable = this.schema.bookingTable;
         return `
         select 
             tt.${ticketTable.ticketID},
             tt.${ticketTable.ticketType},
             tp.${ticketPrice.ticketPrice},
             et.${eventTable.eventName},
-            ct.${customerTable.customerID},
+            bt.${bookingTable.customerID},
             tt.${ticketTable.ticketStatus}
         from ${eventTable.tableName} et
         left join ${ticketTable.tableName} tt
@@ -20,8 +20,8 @@ class TicketQuery extends Query{
         left join ${ticketPrice.tableName} tp
             on tp.${ticketPrice.eventID} = tt.${ticketTable.eventID}
                 and tp.${ticketPrice.ticketType} = tt.${ticketTable.ticketType}
-        left join ${customerTable.tableName} ct
-            on ct.${customerTable.customerID} = tt.${ticketTable.customerID}
+        left join ${bookingTable.tableName} bt
+            on ct.${bookingTable.bookingID} = tt.${ticketTable.bookingID}
         `;
     }
 
@@ -43,17 +43,18 @@ class TicketQuery extends Query{
         var baseQuery = `
             insert into ${ticketTable.tableName}
             (
-                ${ticketTable.eventID},
                 ${ticketTable.ticketType},
+                ${ticketTable.eventID},
+                ${ticketTable.bookingID},
                 ${ticketTable.ticketStatus}
             )
             values
 
         `
         for (let i = 0 ; i < numOfTicket - 1 ; i++){
-            baseQuery += `(${eventID}, ${ticketType}, ${0}),\n`;
+            baseQuery += `(${ticketType}, ${eventID}, null, ${0}),\n`;
         }
-        baseQuery += `(${eventID}, ${ticketType}, ${0}) returning *;`;
+        baseQuery += `(${ticketType}, ${eventID}, null, ${0}) returning *;`;
         return baseQuery;
     }
 

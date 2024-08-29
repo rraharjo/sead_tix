@@ -2,19 +2,20 @@
 --create database sead_tix;
 --------------------------------------------------------------------------------------------------------------------------------
 
-delete from ticket_table;
-delete from ticket_price;
-delete from customer_table;
 delete from performer_event_relation;
 delete from performer_table;
+delete from ticket_table;
+delete from ticket_price;
+delete from booking_table;
+delete from customer_table;
 delete from event_rules_table;
 delete from event_table;
-delete from event_league_table;
-delete from event_type_table;
-delete from event_classification_table;
 delete from venue_table;
 delete from city_table;
 delete from state_table;
+delete from event_league_table;
+delete from event_type_table;
+delete from event_classification_table;
 
 drop table performer_event_relation;
 drop table performer_table;
