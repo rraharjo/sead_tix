@@ -21,7 +21,7 @@ class TicketQuery extends Query{
             on tp.${ticketPrice.eventID} = tt.${ticketTable.eventID}
                 and tp.${ticketPrice.ticketType} = tt.${ticketTable.ticketType}
         left join ${bookingTable.tableName} bt
-            on ct.${bookingTable.bookingID} = tt.${ticketTable.bookingID}
+            on bt.${bookingTable.bookingID} = tt.${ticketTable.bookingID}
         `;
     }
 

@@ -134,7 +134,8 @@ create table customer_table(
 create table booking_table(
     booking_id      serial          primary key,
     booking_date    date            not null,
-    customer_id     int
+    customer_id     int,
+    booking_status  int
 );
 
 create table ticket_table(
