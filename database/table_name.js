@@ -1,6 +1,7 @@
 const table_names = {
     "city": "city_table",
     "customer": "customer_table",
+    "booking": "booking_table",
     "event_league": "event_league_table",
     "event_table": "event_table",
     "event_type": "event_type_table",

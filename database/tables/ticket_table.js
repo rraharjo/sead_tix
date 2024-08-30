@@ -6,7 +6,7 @@ class TicketTable extends Table{
         this.ticketID = "ticket_id";
         this.ticketType = "ticket_type";
         this.eventID = "event_id";
-        this.customerID = "customer_id";
+        this.bookingID = "booking_id";
         this.ticketStatus = "ticket_status";
     }
 }

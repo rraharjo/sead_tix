@@ -2,24 +2,26 @@
 --create database sead_tix;
 --------------------------------------------------------------------------------------------------------------------------------
 
-delete from ticket_table;
-delete from ticket_price;
-delete from customer_table;
 delete from performer_event_relation;
 delete from performer_table;
+delete from ticket_table;
+delete from ticket_price;
+delete from booking_table;
+delete from customer_table;
 delete from event_rules_table;
 delete from event_table;
-delete from event_league_table;
-delete from event_type_table;
-delete from event_classification_table;
 delete from venue_table;
 delete from city_table;
 delete from state_table;
+delete from event_league_table;
+delete from event_type_table;
+delete from event_classification_table;
 
 drop table performer_event_relation;
 drop table performer_table;
 drop table ticket_table;
 drop table ticket_price;
+drop table booking_table;
 drop table customer_table;
 drop table event_rules_table;
 drop table event_table;
@@ -129,11 +131,18 @@ create table customer_table(
     date_of_birth   date            not null
 );
 
+create table booking_table(
+    booking_id      serial          primary key,
+    booking_date    date            not null,
+    customer_id     int,
+    booking_status  int
+);
+
 create table ticket_table(
     ticket_id           serial          primary key,
     ticket_type         varchar(255),
     event_id            int             not null,
-    customer_id         int,
+    booking_id          int,
     ticket_status       int             not null
 );
 
@@ -142,7 +151,11 @@ alter table ticket_table
         references event_table (event_id);
 
 alter table ticket_table
-    add constraint fk_customer_ticket foreign key (customer_id)
+    add constraint fk_booking_ticket foreign key (booking_id)
+        references booking_table (booking_id);
+
+alter table booking_table
+    add constraint fk_booking_customer foreign key (customer_id)
         references customer_table (customer_id);
 
 create table ticket_price(
