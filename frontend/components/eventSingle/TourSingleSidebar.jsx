@@ -3,20 +3,38 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { times } from "@/data/tourSingleContent";
+import Link from "next/link";
 import axios from "axios";
 import datasource from "@/source/url"
 
-export default function TourSingleSidebar({eventID}) {
+export default function TourSingleSidebar({ eventID }) {
   const addNumber = (num) => {
     numbers[num] += 1;
   }
 
   const minNumber = (num) => {
-    if (numbers[num] <= 0){
+    if (numbers[num] <= 0) {
       numbers[num] = 0;
       return;
     }
     numbers[num] -= 1;
+  }
+
+  const createRequestBody = (eventID, ticketTypes, ticketNumbers) => {
+    const ticketBody = [];
+    for (let i = 0 ; i < ticketNumbers.length ; i++){
+      if (ticketNumbers[i]){
+        ticketBody.push({
+          "ticket_type": ticketTypes[i].ticket_type,
+          "number_of_ticket": ticketNumbers[i]
+        });
+      }
+    }
+    const toRet = {
+      "event_id": eventID,
+      "tickets": ticketBody
+    };
+    return toRet;
   }
   const apiAddress = datasource.backendaddr + datasource.apiURL;
   const [refresher, setRefreshser] = useState(false);
@@ -119,43 +137,42 @@ export default function TourSingleSidebar({eventID}) {
 
       <h5 className="text-18 fw-500 mb-20 mt-20">Kategori</h5>
       {ticketTypes?.map((e, ind) => {
-        console.log(ind);
-        return<div className="mt-15">
-        <div className="d-flex items-center justify-between">
-          <div className="text-14">
-            {e.ticket_type}{" "}
-            <span className="fw-500">
-              ${e.ticket_price}
-            </span>
-          </div>
-
-          <div className="d-flex items-center js-counter">
-            <button
-              onClick={() => {
-                minNumber(ind);
-                setRefreshser((pre) => !pre);
-              }}
-              className="button size-30 border-1 rounded-full js-down"
-            >
-              <i className="icon-minus text-10"></i>
-            </button>
-
-            <div className="flex-center ml-10 mr-10">
-              <div className="text-14 size-20 js-count">{numbers[ind]}</div>
+        return <div className="mt-15">
+          <div className="d-flex items-center justify-between">
+            <div className="text-14">
+              {e.ticket_type}{" "}
+              <span className="fw-500">
+                ${e.ticket_price}
+              </span>
             </div>
 
-            <button
-              onClick={() => {
-                addNumber(ind);
-                setRefreshser((pre) => !pre);
-              }}
-              className="button size-30 border-1 rounded-full js-up"
-            >
-              <i className="icon-plus text-10"></i>
-            </button>
+            <div className="d-flex items-center js-counter">
+              <button
+                onClick={() => {
+                  minNumber(ind);
+                  setRefreshser((pre) => !pre);
+                }}
+                className="button size-30 border-1 rounded-full js-down"
+              >
+                <i className="icon-minus text-10"></i>
+              </button>
+
+              <div className="flex-center ml-10 mr-10">
+                <div className="text-14 size-20 js-count">{numbers[ind]}</div>
+              </div>
+
+              <button
+                onClick={() => {
+                  addNumber(ind);
+                  setRefreshser((pre) => !pre);
+                }}
+                className="button size-30 border-1 rounded-full js-up"
+              >
+                <i className="icon-plus text-10"></i>
+              </button>
+            </div>
           </div>
-        </div>
-      </div>;
+        </div>;
       })}
 
       {/* <h5 className="text-18 fw-500 mb-20 mt-20">Add Extra</h5> */}
@@ -231,7 +248,19 @@ export default function TourSingleSidebar({eventID}) {
         </div>
       </div>
 
-      <button className="button -md -dark-1 col-12 bg-accent-1 text-white mt-20">
+      <button className="button -md -dark-1 col-12 bg-accent-1 text-white mt-20" onClick={async () => {
+        const totalTicket = numbers.reduce((prev, cur) => prev + cur, 0);
+        if (totalTicket != 0) {
+          const reqBody = createRequestBody(eventID, ticketTypes, numbers);
+          const reqReturn = await axios.post("http://localhost:3000/api/v1/booking/id", reqBody);
+          if (reqReturn.status === 200) {
+            const bookingID = reqReturn.data.return_value[0].booking_id;
+            window.history.pushState(null, null, `/booking-pages?booking_id=${bookingID}`);
+            window.location = `/booking-pages?booking_id=${bookingID}`;
+          }
+        }
+
+      }}>
         Pesan Sekarang
         <i className="icon-arrow-top-right ml-10"></i>
       </button>
