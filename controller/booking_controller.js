@@ -1,47 +1,21 @@
 import Controller from "./controller.js";
 import Mailer from "../mailer/mailer.js";
-import TicketQuery from "../queries/ticket_query.js";
+import BookingQuery from "../queries/booking_query.js";
 import QueryUtil from "../util/query_util.js";
+import StatusUtil from "../util/status_util.js";
 
-class TicketController extends Controller{
+class BookingController extends Controller{
     constructor() {
-        super(new TicketQuery());
+        super(new BookingQuery());
         this.mailer = new Mailer();
     }
 
-    getSpecificEvent = async (req, res) => {
-        const filterType = (filter, placeholder, element) => {
-            if (element.ticket_type.toLowerCase() === filter.toLowerCase()) {
-                placeholder.push(element);
-            }
-            return placeholder;
-        }
-        const filterStatus = (filter, placeholder, element) => {
-            if (element.ticket_status.toString() === filter) {
-                placeholder.push(element);
-            }
-            return placeholder;
-        }
+    getAllBooking = async (req, res) => {
         try{
-            const eventID = QueryUtil.properQueryInt(req.params.eventID);
-            const filter = req.query;
-            
             const queryReturn = await this.pool.query(
-                this.query.getSpecificEvent(eventID)
+                this.query.getAllBooking()
             );
             var value = queryReturn.rows;
-            if (filter.ticket_type){
-                value = value.reduce(
-                    filterType.bind(null, filter.ticket_type),
-                    []
-                )
-            }
-            if (filter.ticket_status){
-                value = value.reduce(
-                    filterStatus.bind(null, filter.ticket_status),
-                    []
-                )
-            }
             if (value && value.length > 0){
                 this.successfulResponse(value, res);
             }
@@ -55,22 +29,57 @@ class TicketController extends Controller{
         }
     }
 
-    getSpecificTicketType = async (req, res) => {
+    createNewBooking = async (req, res) => {
         try{
-            const eventID = QueryUtil.properQueryInt(req.params.eventID);
-            const ticketType = QueryUtil.properQueryStr(req.params.ticketType);
-            const queryReturn = await this.pool.query(
-                this.query.getSpecificTicketType(eventID, ticketType)
+            //0: available
+            //1: on hold
+            //2: pending transaction
+            //3: done
+            const eventID = QueryUtil.properQueryInt(req.body.event_id);
+            const ticketArr = req.body.tickets;
+            const totalNumOfTicket = ticketArr.reduce((prev, cur) => {
+                return prev + cur.number_of_ticket;
+            }, 0);
+            const ticketIDQuery = await this.pool.query(
+                this.query.checkIDs(eventID, ticketArr)
             );
-            const value = queryReturn.rows;
+            const ticketIDs = ticketIDQuery.rows.map((e) => e.ticket_id);
+
+            if (totalNumOfTicket != ticketIDs.length){
+                await this.pool.query(
+                    this.query.updateTicketStatus(QueryUtil.properQueryInt(StatusUtil.AVAILABLE), QueryUtil.properQueryArr(ticketIDs))
+                );
+                res.status(400)
+                .json({
+                    "ticket_requested": totalNumOfTicket,
+                    "ticket_available": ticketIDs.length
+                });
+                return;
+            }
+
+            const now = new Date();
+            const booking = await this.pool.query(
+                this.query.createBooking(QueryUtil.properQueryDate(now))
+            );
+
+            const value = booking.rows;
             if (value && value.length > 0){
+                const bookingID = value[0];
+                console.log(bookingID);
+                await this.pool.query(
+                    this.query.setTicketsBooking(QueryUtil.properQueryInt(bookingID.booking_id), QueryUtil.properQueryArr(ticketIDs))
+                );
                 this.successfulResponse(value, res);
             }
             else{
+                await this.pool.query(
+                    this.query.updateTicketStatus(QueryUtil.properQueryInt(StatusUtil.AVAILABLE), QueryUtil.properQueryArr(ticketIDs))
+                );
                 this.notFoundResponse(req, res);
             }
         }
         catch (e) {
+            console.log(e);
             this.errorResponse(e, res);
         }
     }
@@ -278,4 +287,4 @@ class TicketController extends Controller{
     }
 }
 
-export default TicketController;
+export default BookingController;
