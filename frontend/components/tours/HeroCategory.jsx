@@ -34,11 +34,6 @@ export default function Hero({eventType}) {
             <div className="col-12">
               <div className="pageHeader__content">
                 <h1 className="pageHeader__title">{eventType}</h1>
-
-                <p className="pageHeader__text">
-                  A tropical paradise made for animal lovers replete with monkey
-                  caves, dog foundations, and dolphins in the wild.
-                </p>
                 
               </div>
             </div>

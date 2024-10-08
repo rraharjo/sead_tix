@@ -4,7 +4,7 @@ import EventsController from "../controller/events_controller.js";
 const router = Router();
 
 const eventsController = new EventsController();
-    
+
 router.route("/id")
     .get(eventsController.getAllEvents)
     .post(eventsController.addEvent);
@@ -28,6 +28,9 @@ router.route("/description/:id")
 
 router.route("/pictures/:id")
     .get(eventsController.getSinglePicture);
+
+router.route("/search")
+    .get(eventsController.getEventsSearchByName)
 
 /*router.route("/location/:state")
     .get(eventsController.getSpecificState);

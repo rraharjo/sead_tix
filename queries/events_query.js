@@ -134,6 +134,18 @@ class EventQuery extends Query{
         return this.#getEventsTemplate() + 
             `where lower(pt.${pt.performerName}) = lower(${performerName});`
     }
+    
+    getEventBySearchName = (queries) => {
+        const eventTable = this.schema.eventTable;
+        const queriesLength = queries.length;
+        var baseQuery = this.#getEventsTemplate();
+        baseQuery += `where `
+        for (let i = 0 ; i < queriesLength - 1 ; i++){
+            baseQuery += `lower(et.${eventTable.eventName}) like '%${queries[i]}%'\nor `
+        }
+        baseQuery += `lower(et.${eventTable.eventName}) like '%${queries[queriesLength - 1]}%';`
+        return baseQuery;
+    }
 
     insertEvent = (valuesList) => {
         const eventTable = this.schema.eventTable;

@@ -255,6 +255,26 @@ class EventsController extends Controller {
         }
     }
 
+    getEventsSearchByName = async (req, res) => {
+        try{
+            const searchParam = req.query.name;
+            const searchParams = searchParam.split(" ").map((element) => element.toLowerCase());
+            const queryReturn = await this.pool.query(
+                this.query.getEventBySearchName(searchParams)
+            );
+            const value = queryReturn.rows;
+            if (value && value.length > 0){
+                this.successfulResponse(value, res);
+            }
+            else{
+                this.notFoundResponse(req, res);
+            }
+        }
+        catch (e) {
+            this.errorResponse(e, res);
+        }
+    }
+
     addEvent = async (req, res) => {
         try {
             const leagueID = QueryUtil.properQueryInt(req.body.league_id);

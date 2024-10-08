@@ -4045,6 +4045,8 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
   height: fit-content;
 }
 

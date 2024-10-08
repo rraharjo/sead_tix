@@ -6,7 +6,7 @@ import axios from "axios";
 import { filter } from "@/data/tourFilteringOptions";
 import Calender from "../common/dropdownSearch/Calender";
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import Image from "@/components/eventSingle/ImageClient";
 import Link from "next/link";
 import { FaThumbtack } from 'react-icons/fa';
 import { FaRegCalendarAlt } from 'react-icons/fa';
@@ -118,11 +118,6 @@ export default function TourList3({ eventClassification, eventType }) {
                   className="dropdown__button js-button"
                   onClick={() => setDdActives((pre) => !pre)}
                 >
-                  <span>Sort by: </span>
-                  <span className="js-title">
-                    {sortOption ? sortOption : "Featured"}
-                  </span>
-                  <i className="icon-chevron-down"></i>
                 </div>
 
                 <div className="dropdown__menu js-menu-items">
@@ -156,11 +151,7 @@ export default function TourList3({ eventClassification, eventType }) {
                       <div className="tourCard__header">
                         <div className="tourCard__image ratio ratio-28:20">
                           <Image
-                            width={421}
-                            height={301}
-                            src=""
-                            alt="image"
-                            className="img-ratio rounded-12"
+                            eventID={elm.event_id}
                           />
                         </div>
 

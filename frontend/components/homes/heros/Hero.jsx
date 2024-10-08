@@ -78,61 +78,6 @@ export default function Hero() {
                 className="mt-60 md:mt-35"
               >
                 <div className="searchFormsContainer">
-                  <div className="searchForm -type-1">
-                    <div className="searchForm__form">
-                      <div className="searchFormItem js-select-control js-form-dd">
-                        <div
-                          className="searchFormItem__button hover-effect"
-                          onClick={() =>
-                            setCurrentActiveDD((pre) =>
-                              pre == "location" ? "" : "location"
-                            )
-                          }
-                        >
-                          <div className="searchFormItem__icon">
-                            <i><FaThumbtack size="18"/> </i>
-                          </div>
-                          <div className="searchFormItem__content">
-                            <h5>Dimana</h5>
-                            <div className="js-select-control-chosen">
-                              {location ? location : "Cari Kota"}
-                            </div>
-                          </div>
-                        </div>
-
-                        <Location
-                          setLocation={setLocation}
-                          active={currentActiveDD === "location"}
-                        />
-                      </div>
-
-                      <div className="searchFormItem js-select-control js-form-dd js-calendar">
-                        <div
-                          className="searchFormItem__button hover-effect"
-                          onClick={() =>
-                            setCurrentActiveDD((pre) =>
-                              pre == "calender" ? "" : "calender"
-                            )
-                          }
-                        >
-                          <div className="searchFormItem__icon">
-                            <i className="mb-2"><FaRegCalendarCheck size="22"/> </i>
-                          </div>
-                          <div className="searchFormItem__content">
-                            <h5>Kapan</h5>
-                            <div>
-                              <span className="js-first-date">
-                                <Calender
-                                  active={currentActiveDD === "calender"}
-                                />
-                              </span>
-                              <span className="js-last-date"></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
                   <div className="searchForm -type-9">
                     <div className="searchForm__form">
@@ -150,13 +95,15 @@ export default function Hero() {
                           </div>
                       </div>
                       <div className="searchForm__button">
+                        <a>
                         <button
-                          onClick={() => router.push("/tour-list-1")}
+                          onClick={() => router.push(`/event-list-search?name=${category}`)}
                           className="button -dark-1 bg-accent-1 text-white"
                         >
                           <i className="mr-10"><FaSearch size="15"/> </i>
                           Search
                         </button>
+                        </a>
                       </div>
                     </div>
                   </div>
