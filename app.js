@@ -9,15 +9,17 @@ const app = express()
 const port = 3000;
 
 //middleware
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 app.use(json());
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-  });
+app.use(express.static("static"));
 
 //routes
 const baseURL = "/api/v1";
@@ -30,5 +32,5 @@ app.use(baseURL + "/booking", bookingRouter);
 
 //start server
 app.listen(port, () => {
-    console.log(`listening to port ${port}`);
+  console.log(`listening to port ${port}`);
 });

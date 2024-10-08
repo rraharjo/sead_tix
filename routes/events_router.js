@@ -23,6 +23,12 @@ router.route("/classifications/:classification/")
 router.route("/classifications/:classification/:type/")
     .get(eventsController.getTypesLeague);
 
+router.route("/description/:id")
+    .get(eventsController.getSingleDescription);
+
+router.route("/pictures/:id")
+    .get(eventsController.getSinglePicture);
+
 /*router.route("/location/:state")
     .get(eventsController.getSpecificState);
 

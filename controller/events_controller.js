@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import Controller from "./controller.js";
 import EventQuery from "../queries/events_query.js";
 import QueryUtil from "../util/query_util.js";
@@ -336,6 +338,46 @@ class EventsController extends Controller {
             }
         }
         catch (e) {
+            this.errorResponse(e, res);
+        }
+    }
+
+    getSingleDescription = async (req, res) => {
+        try{
+            const __dirname = path.resolve();
+            const options = {
+                root: path.join(__dirname)
+            };
+            const eventID = req.params.id;
+            const eventPath = path.join("static", "event_descriptions", `${eventID}.html`);
+            if (fs.existsSync(path.join(__dirname, eventPath))){
+                return res.sendFile(eventPath, options);
+            }
+            return res.send("");
+        }
+        catch (e) {
+            console.log(e);
+            this.errorResponse(e, res);
+        }
+    }
+
+    getSinglePicture = async (req, res) => {
+        try{
+            const __dirname = path.resolve();
+            const options = {
+                root: path.join(__dirname)
+            };
+            const eventID = req.params.id;
+            const eventPath = path.join("static", "event_pictures", `${eventID}.jpg`);
+            res.setHeader("Content-Type", "image/jpeg");
+            if (fs.existsSync(path.join(__dirname, eventPath))){
+                return res.sendFile(eventPath, options);
+            }
+            const defaultPath = path.join("static", "event_pictures", "default.jpg");
+            return res.sendFile(defaultPath, options);
+        }
+        catch (e) {
+            console.log(e);
             this.errorResponse(e, res);
         }
     }
