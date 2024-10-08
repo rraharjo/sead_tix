@@ -15,12 +15,7 @@ import Deskripsi from "../Overview";
 import Gallery4 from "../Galleries/Gallery4";
 
 const tabButtons = [
-  "Deskripsi",
-  "Peraturan Acara",
-  // "Syarat dan Ketentuan",
-  // "Lokasi",
-  "FAQ",
-  "Seat Map",
+  "Deskripsi"
 ];
 
 export default function SingleFive({ eventID }) {
@@ -61,121 +56,6 @@ export default function SingleFive({ eventID }) {
                   >
 
                     <Deskripsi eventID = {eventID}/>
-                  </div>
-
-                  <div
-                    className={`tabs__pane ${
-                      activeTab == "Peraturan Acara" ? "is-tab-el-active" : ""
-                    }`}
-                  >
-                    <h2 className="text-30">Peraturan Acara</h2>
-
-                    <div className="row x-gap-130 y-gap-20 pt-20">
-                      <div className="col-lg-6">
-                        <div className="y-gap-15">
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            Beverages, drinking water, morning tea and buffet
-                            lunch
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            Local taxes
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            Hotel pickup and drop-off by air-conditioned minivan
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            InsuranceTransfer to a private pier
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            Soft drinks
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-check flex-center text-10 size-24 rounded-full text-green-2 bg-green-1 mr-15"></i>
-                            Tour Guide
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-lg-6">
-                        <div className="y-gap-15">
-                          <div className="d-flex">
-                            <i className="icon-cross flex-center text-10 size-24 rounded-full text-red-3 bg-red-4 mr-15"></i>
-                            Towel
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-cross flex-center text-10 size-24 rounded-full text-red-3 bg-red-4 mr-15"></i>
-                            Tips
-                          </div>
-                          <div className="d-flex">
-                            <i className="icon-cross flex-center text-10 size-24 rounded-full text-red-3 bg-red-4 mr-15"></i>
-                            Alcoholic Beverages
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h2 className="mt-30 text-30">Syarat dan Ketentuan</h2>
-
-                  </div>
-
-                  <div
-                    className={`tabs__pane ${
-                      activeTab == "Syarat dan Ketentuan" ? "is-tab-el-active" : ""
-                    }`}
-                  >
-                    <h2 className="text-30">Syarat dan Ketentuan</h2>
-
-                    <div className="mt-30">
-                      <RoadMap />
-                    </div>
-                  </div>
-
-                  <div
-                    className={`tabs__pane ${
-                      activeTab == "Lokasi" ? "is-tab-el-active" : ""
-                    }`}
-                  >
-                    <h2 className="text-30">Availability Calendar</h2>
-
-                    <DateCalender />
-                  </div>
-
-                  <div
-                    className={`tabs__pane ${
-                      activeTab == "FAQ" ? "is-tab-el-active" : ""
-                    }`}
-                  >
-                    <h2 className="text-30">FAQ</h2>
-
-                    <div className="accordion -simple row y-gap-20 mt-30 js-accordion">
-                      <Faq />
-                    </div>
-                  </div>
-
-                  <div
-                    className={`tabs__pane ${
-                      activeTab == "Seat Map" ? "is-tab-el-active" : ""
-                    }`}
-                  >
-                    <h2 className="text-30">Seat Map</h2>
-
-                    {/* <div className="mt-30">
-                      <Rating />
-                    </div> */}
-
-                    {/* <Reviews /> */}
-
-                    {/* <button className="button -md -outline-accent-1 text-accent-1 mt-30">
-                      See more reviews
-                      <i className="icon-arrow-top-right text-16 ml-10"></i>
-                    </button> */}
-
-                    {/* <CommentBox /> */}
                   </div>
                 </div>
               </div>
