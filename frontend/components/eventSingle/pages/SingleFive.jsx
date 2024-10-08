@@ -59,11 +59,8 @@ export default function SingleFive({ eventID }) {
                       activeTab == "Deskripsi" ? "is-tab-el-active" : ""
                     }`}
                   >
-                    {/* <div className="row y-gap-20 justify-between items-center layout-pb-md">
-                      <OthersInformation />
-                    </div> */}
 
-                    <Deskripsi />
+                    <Deskripsi eventID = {eventID}/>
                   </div>
 
                   <div

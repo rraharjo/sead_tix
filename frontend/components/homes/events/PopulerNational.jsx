@@ -1,5 +1,6 @@
 //import { tourData } from "@/data/tours";
-import Image from "next/image";
+//import Image from "next/image";
+import Image from "@/components/eventSingle/Image";
 import Link from "next/link";
 import React from "react";
 import axios from "axios";
@@ -42,18 +43,8 @@ export default async function PopulerNational() {
               >
                 <div className="tourCard__header">
                   <div className="tourCard__image ratio ratio-28:20">
-                    <Image
-                      width={421}
-                      height={301}
-                      src={elm.imageSrc}
-                      alt="image"
-                      className="img-ratio rounded-12"
-                    />
+                    <Image eventID = {elm.event_id}/>
                   </div>
-
-                  {/* <button className="tourCard__favorite">
-                    <i className="icon-heart"></i>
-                  </button> */}
                 </div>
 
                 <div className="tourCard__content px-10 pt-10">

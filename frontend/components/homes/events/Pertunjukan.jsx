@@ -7,7 +7,7 @@ import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { tourData } from "@/data/tours";
-import Image from "next/image";
+import Image from "@/components/eventSingle/ImageClient";
 import Link from "next/link";
 import { FaThumbtack } from 'react-icons/fa';
 import { FaRegCalendarAlt } from 'react-icons/fa';
@@ -81,11 +81,7 @@ export default function Pertunjukan() {
                       <div className="tourCard__header">
                         <div className="tourCard__image ratio ratio-28:20">
                           <Image
-                            width={421}
-                            height={301}
-                            src=""
-                            alt="image"
-                            className="img-ratio rounded-12"
+                            eventID={elm.event_id}
                           />
                         </div>
                       </div>

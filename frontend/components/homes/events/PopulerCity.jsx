@@ -1,7 +1,7 @@
 "use client";
 
 import { tourData } from "@/data/tours";
-import Image from "next/image";
+import Image from "@/components/eventSingle/ImageClient";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import datasource from "@/source/url"
@@ -103,11 +103,7 @@ export default function PopulerCity() {
                   <div className="tourCard__header">
                     <div className="tourCard__image ratio ratio-28:20">
                       <Image
-                        width={421}
-                        height={301}
-                        src={e.imageSrc}
-                        alt="image"
-                        className="img-ratio"
+                        eventID = {e.event_id}
                       />
                     </div>
 

@@ -6,7 +6,7 @@ import axios from "axios";
 import datasource from "@/source/url"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import Image from "next/image";
+import Image from "@/components/eventSingle/ImageClient";
 import Link from "next/link";
 import { FaThumbtack } from 'react-icons/fa';
 import { FaRegCalendarAlt } from 'react-icons/fa';
@@ -81,11 +81,7 @@ export default function Musik() {
                       <div className="tourCard__header">
                         <div className="tourCard__image ratio ratio-28:20">
                           <Image
-                            width={421}
-                            height={301}
-                            src={e.imageSrc}
-                            alt="image"
-                            className="img-ratio rounded-12"
+                            eventID = {e.event_id}
                           />
                         </div>
 

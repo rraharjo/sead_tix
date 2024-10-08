@@ -19,7 +19,6 @@ export default function Home() {
       <Header />
       <Hero />
       <PopulerNational />
-      <Category />
       <PopulerCity />
       <Musik />
       <Olahraga />
